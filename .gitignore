@@ -1,3 +1,5 @@
 *.iwl
 *.idea
 *.iml
+*.class
+*.apk
