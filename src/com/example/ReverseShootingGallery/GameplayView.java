@@ -19,18 +19,24 @@ import android.view.View;
  * Based on http://www.mindfiresolutions.com/Using-Surface-View-for-Android-1659.php
  */
 public class GameplayView extends SurfaceView implements SensorEventListener, SurfaceHolder.Callback {
-    private DrawableTarget target;
-    private SensorManager sensorManager;
-    private Sensor rotationSensor;
-    private double tiltX, tiltY;
-    private GameThread gameThread;
-    private Context context;
+
     private static final String logString = GameplayView.class.getName()+".log";
+
+    private DrawableTarget target;
+
+    private SensorManager sensorManager;
+    private Sensor accelSensor;
+
+    private float[] lastGrav;
+    private float[] lastMag;
+
+    private GameThread gameThread;
+
+    private Context context;
 
     public GameplayView(Context context) {
         super(context);
         target = new DrawableTarget(300, 300, R.drawable.target_blue, getResources());
-        tiltX = tiltY = 0;
         this.context = context;
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
@@ -38,8 +44,8 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
 
     public void registerSensor(){
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        rotationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR);
-        sensorManager.registerListener(this, rotationSensor, SensorManager.SENSOR_DELAY_GAME);
+        accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorManager.registerListener(this, accelSensor, SensorManager.SENSOR_DELAY_GAME);
     }
 
     public void unregisterSensor(){
@@ -51,17 +57,19 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
         super.onDraw(c);
     }
 
+    public void manualUpdate(){
+        target.update();
+    }
+
     public void manualDraw(Canvas c){
         c.drawColor(Color.BLACK);
-        target.translate( tiltX * 100,  tiltY * 100);
         target.clamp(getWidth(), getHeight());
         target.draw(c);
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        tiltX = event.values[0];
-        tiltY = -event.values[1];
+        target.setVelocity(event.values[1], event.values[0]);
     }
 
     @Override
