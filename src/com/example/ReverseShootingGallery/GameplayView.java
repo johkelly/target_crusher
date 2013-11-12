@@ -3,16 +3,13 @@ package com.example.ReverseShootingGallery;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,9 +23,6 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
 
     private SensorManager sensorManager;
     private Sensor accelSensor;
-
-    private float[] lastGrav;
-    private float[] lastMag;
 
     private GameThread gameThread;
 
