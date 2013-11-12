@@ -20,12 +20,12 @@ public class GameplayActivity extends Activity {
     @Override
     public void onResume(){
         super.onResume();
-        gameView.registerSensor();
+        gameView.gameplayUnpause();
     }
 
     @Override
     public void onPause(){
         super.onPause();
-        gameView.unregisterSensor();
+        gameView.gameplayPause();
     }
 }
