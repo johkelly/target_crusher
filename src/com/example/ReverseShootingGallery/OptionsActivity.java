@@ -1,14 +1,24 @@
 package com.example.ReverseShootingGallery;
 
 
-import edu.mines.zfjk.EquipmentCheckout.DetailFragment;
-import edu.mines.zfjk.EquipmentCheckout.FragmentManager;
-import edu.mines.zfjk.EquipmentCheckout.Override;
-import edu.mines.zfjk.EquipmentCheckout.R;
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
-public class OptionsActivity extends Activity implements OptionDetailsFragmentDispatcher {
+public class OptionsActivity extends MenuDisplayingActivity implements OptionsListFragment.OptionDetailsFragmentDispatcher {
+
+    public static String[] OPTION_NAMES = {
+            "Calibration",
+            "Difficulty",
+            "Appearance",
+            "Data"
+    };
+
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,13 +30,20 @@ public class OptionsActivity extends Activity implements OptionDetailsFragmentDi
             getFragmentManager().executePendingTransactions();
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        super.onCreateOptionsMenu(menu);
+        menu.removeItem(R.id.action_options);
+        return true;
+    }
+
     /**
      * Dispatch a DetailsFragment according to the current layout
      * @param pos index of the Equipment object to display details for
      */
     @Override
     public void displayDetailsFor(int pos) {
-        if (emc.getAllObjects().size() <= pos) return;
         FragmentManager fm = getFragmentManager();
         // Multi pane layout with multiple fragments in layout
         if (findViewById(R.id.solo_options_fragment_container) == null) {
@@ -34,7 +51,7 @@ public class OptionsActivity extends Activity implements OptionDetailsFragmentDi
             if (details == null) {
                 details = new OptionsDetailFragment();
 
-                fm.beginTransaction().add(R.id.OptionsDetailFragment, details, "details").addToBackStack(null).commit();
+                fm.beginTransaction().add(R.id.options_detail_fragment_container, details, "details").addToBackStack(null).commit();
                 fm.executePendingTransactions();
             }
             details.showDetailsFor(pos);

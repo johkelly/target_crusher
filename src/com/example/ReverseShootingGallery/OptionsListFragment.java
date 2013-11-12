@@ -48,7 +48,7 @@ public class OptionsListFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
-        adapter = new OptionsAdapter(inflater.getContext(), R.layout.options_row);
+        adapter = new OptionsAdapter(inflater.getContext(), R.layout.options_row, OptionsActivity.OPTION_NAMES);
         setListAdapter(adapter);
 
         return super.onCreateView(inflater, container, savedInstanceState);

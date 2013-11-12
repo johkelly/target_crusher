@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ReverseShootingGallery</string>
+    <string name="app_name_options">ReverseShootingGallery Options</string>
+    <string name="action_options">Options</string>
+    <string name="action_about">About</string>
+    <string name="action_help">Help</string>
+    <string name="action_scores">High Scores</string>
 </resources>
