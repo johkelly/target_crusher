@@ -2,7 +2,6 @@ package com.example.ReverseShootingGallery;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -19,20 +18,26 @@ public class DrawableTarget {
     private int width, height;
     private double xVelocity;
     private double yVelocity;
-    private Point pos;
+    private double posX;
+    private double posY;
     private final Drawable drawable;
 
     public DrawableTarget(int x, int y, int resId, Resources resources) {
         drawable = resources.getDrawable(resId);
         width = drawable.getIntrinsicHeight();
         height = drawable.getIntrinsicHeight();
-        pos = new Point(x, y);
+        posX = x;
+        posY = y;
         xVelocity = 0;
         yVelocity = 0;
     }
 
     public void draw(Canvas c){
-        drawable.setBounds(pos.x - width/2, pos.y - height/2, pos.x + width/2, pos.y + height/2);
+        int l = (int) (posX - width/2);
+        int t = (int) (posY - height/2);
+        int r = (int) (posX + width/2);
+        int b = (int) (posY + height/2);
+        drawable.setBounds(l, t, r, b);
         drawable.draw(c);
     }
 
@@ -44,8 +49,8 @@ public class DrawableTarget {
 
     public void update(){
         Log.d(logstr, "Update; " + xVelocity + " " + yVelocity);
-        pos.x += xVelocity;
-        pos.y += yVelocity;
+        posX += xVelocity;
+        posY += yVelocity;
     }
 
     public void clamp(int maxX, int maxY){
@@ -53,7 +58,7 @@ public class DrawableTarget {
     }
 
     public void clampPosition(int minX, int minY, int maxX, int maxY){
-        pos.x = Math.max(minX, Math.min(pos.x, maxX));
-        pos.y = Math.max(minY, Math.min(pos.y, maxY));
+        posX = Math.max(minX+width/2, Math.min(posX, maxX-width/2));
+        posY = Math.max(minY+height/2, Math.min(posY, maxY-height/2));
     }
 }
