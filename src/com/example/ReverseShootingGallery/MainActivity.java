@@ -1,14 +1,19 @@
 package com.example.ReverseShootingGallery;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.Toast;
 
-public class GameplayActivity extends MenuDisplayingActivity {
+import android.os.Bundle;
+/**
+ * 
+ * @author zachary fleischman and john kelly
+ *
+ * Functionality:
+ * 	This intermediate submission implements the following functionalities as specified in the design document:
+ * 		1. App tracks orientation of device and moves target on screen appropriately
+ * 		2. User may tap the screen to pause the game (stop tracking motion)
+ * 		3. User may navigate to empty activities, which serve as place holders for the Options, Help, and About activities.
+ */
+
+public class MainActivity extends MenuDisplayingActivity {
 
     GameplayView gameView;
 
