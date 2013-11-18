@@ -1,4 +1,4 @@
-package com.example.ReverseShootingGallery;
+package com.example.ReverseShootingGallery.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import com.example.ReverseShootingGallery.R;
 
 public class OptionsDetailFragment extends Fragment {
 
