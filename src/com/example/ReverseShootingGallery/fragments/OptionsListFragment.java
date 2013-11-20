@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import com.example.ReverseShootingGallery.OptionsActivity;
 import com.example.ReverseShootingGallery.OptionsAdapter;
@@ -34,13 +35,19 @@ public class OptionsListFragment extends ListFragment {
     @Override
     public void onAttach(Activity activity){
         super.onAttach(activity);
-
         try {
             dispatcher = (OptionDetailsFragmentDispatcher) activity;
         } catch (ClassCastException cce){
             throw new ClassCastException(activity.toString() + " must implement OptionDetailFragmentDispatcher");
         }
     }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState){
+        super.onViewCreated(view, savedInstanceState);
+        getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+    }
+
     /**
      * Callback for when this fragment creates its views/layouts.
      * @param inflater utility object
@@ -53,7 +60,6 @@ public class OptionsListFragment extends ListFragment {
                              Bundle savedInstanceState){
         adapter = new OptionsAdapter(inflater.getContext(), R.layout.options_row, OptionsActivity.OPTION_NAMES);
         setListAdapter(adapter);
-
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 

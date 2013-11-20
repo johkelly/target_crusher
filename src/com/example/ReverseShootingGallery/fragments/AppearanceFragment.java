@@ -1,6 +1,7 @@
 package com.example.ReverseShootingGallery.fragments;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,10 @@ import com.example.ReverseShootingGallery.R;
  * Time: 3:21 PM
  */
 public class AppearanceFragment extends Fragment {
+
+    public AppearanceFragment(Context context){
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
