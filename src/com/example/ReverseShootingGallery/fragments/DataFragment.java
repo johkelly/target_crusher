@@ -16,10 +16,6 @@ import com.example.ReverseShootingGallery.R;
  */
 public class DataFragment extends Fragment {
 
-    public DataFragment(Context context){
-
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

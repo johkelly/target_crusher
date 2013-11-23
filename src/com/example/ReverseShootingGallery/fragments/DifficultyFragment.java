@@ -16,10 +16,6 @@ import com.example.ReverseShootingGallery.R;
  */
 public class DifficultyFragment extends Fragment {
 
-    public DifficultyFragment(Context context){
-
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

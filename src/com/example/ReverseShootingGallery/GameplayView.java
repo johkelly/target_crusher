@@ -24,6 +24,7 @@ import android.widget.Toast;
 public class GameplayView extends SurfaceView implements SensorEventListener, SurfaceHolder.Callback, View.OnTouchListener {
 
     private static final String logString = GameplayView.class.getName()+".log";
+    public static final String prefString = "sensorPrefs";
 
     private DrawableTarget target;
 
