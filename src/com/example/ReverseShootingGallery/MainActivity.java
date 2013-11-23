@@ -1,6 +1,8 @@
 package com.example.ReverseShootingGallery;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 /**
  * 
@@ -16,6 +18,8 @@ import android.os.Bundle;
 public class MainActivity extends MenuDisplayingActivity {
 
     GameplayView gameView;
+    
+    GameManager gameManager;
 
     /**
      * Called when the activity is first created.
@@ -25,6 +29,11 @@ public class MainActivity extends MenuDisplayingActivity {
         super.onCreate(savedInstanceState);
         gameView = new GameplayView(this);
         setContentView(gameView);
+        
+        gameManager = GameManager.getInstance();
+        SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+        gameManager.getStashedScores(prefs);
+        gameManager.getStashedPlayerName(prefs);
     }
 
     @Override
@@ -37,5 +46,8 @@ public class MainActivity extends MenuDisplayingActivity {
     public void onPause(){
         super.onPause();
         gameView.gameplayPause();
+        SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+        gameManager.stashScores(prefs);
+        gameManager.stashPlayerName(prefs);
     }
 }

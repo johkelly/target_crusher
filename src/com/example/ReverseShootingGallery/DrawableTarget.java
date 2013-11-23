@@ -2,6 +2,7 @@ package com.example.ReverseShootingGallery;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -14,7 +15,7 @@ import android.util.Log;
  */
 public class DrawableTarget {
     private static String logstr = DrawableTarget.class.getSimpleName()+".log";
-
+    
     private int width, height;
     private double xVelocity;
     private double yVelocity;
@@ -40,11 +41,24 @@ public class DrawableTarget {
         drawable.setBounds(l, t, r, b);
         drawable.draw(c);
     }
+    
+    public Rect boundingRect() {
+    	int l = (int) (posX - width/2);
+        int t = (int) (posY - height/2);
+        int r = (int) (posX + width/2);
+        int b = (int) (posY + height/2);
+        return new Rect(l, t, r, b);
+    }
 
     public void setVelocity(double vx, double vy){
         Log.d(logstr, "SetVelocity: " + vx + " "  + vy);
         xVelocity = vx;
         yVelocity = vy;
+    }
+    
+    public void setPosition(int posX, int posY) {
+    	this.posX = posX;
+    	this.posY = posY;
     }
 
     public void update(){

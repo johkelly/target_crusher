@@ -16,7 +16,8 @@ public final class R {
         public static final int ic_action_settings=0x7f020002;
         public static final int ic_action_storage=0x7f020003;
         public static final int ic_launcher=0x7f020004;
-        public static final int target_blue=0x7f020005;
+        public static final int reticle=0x7f020005;
+        public static final int target_blue=0x7f020006;
     }
     public static final class id {
         public static final int OptionsTempTextView=0x7f060002;

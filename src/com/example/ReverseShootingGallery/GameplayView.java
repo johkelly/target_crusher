@@ -1,8 +1,11 @@
 package com.example.ReverseShootingGallery;
 
+import java.util.Random;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -26,6 +29,7 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
     private static final String logString = GameplayView.class.getName()+".log";
 
     private DrawableTarget target;
+    private DrawableTarget reticle;
 
     private SensorManager sensorManager;
     private Sensor accelSensor;
@@ -35,6 +39,8 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
     private Runnable shotTimer;
     private long lastShotResume;
     private long shotWaitElapsed;
+    
+    private GameManager gameManager;
 
     private final Context mContext;
     private boolean paused = false;
@@ -42,23 +48,47 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
     public GameplayView(Context context) {
         super(context);
         target = new DrawableTarget(300, 300, R.drawable.target_blue, getResources());
+        reticle = new DrawableTarget(this.getHeight()/2, this.getWidth()/2, R.drawable.reticle, getResources());
         this.mContext = context;
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
         setOnTouchListener(this);
+        
+        this.gameManager = GameManager.getInstance();
+        
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         threadHandler = new Handler();
         shotTimer = new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(mContext, "Shot fired!", Toast.LENGTH_SHORT).show();
-                lastShotResume = System.currentTimeMillis();
-                threadHandler.postDelayed(this, 5000);
-                shotWaitElapsed = 0;
+                if (!gameManager.gameOver()) {
+                	if (targetUnderReticle()) {
+                		gameManager.targetHit();
+                		randTargetPosition();
+                		//flash!
+                		//bang!
+                        Toast.makeText(mContext, "Target Hit!", Toast.LENGTH_SHORT).show();
+                	} else {
+                		gameManager.targetMiss();
+                		//sad noise
+                		Toast.makeText(mContext, "Target Miss!", Toast.LENGTH_SHORT).show();
+                	}
+                	invalidate();
+                	lastShotResume = System.currentTimeMillis();
+                    threadHandler.postDelayed(this, gameManager.shotDelay());
+                    shotWaitElapsed = 0;
+                } else {
+                	gameManager.storeScore();
+                	gameManager.resetGame();
+                	gameplayPause();
+                	
+                	//show high score menu
+                	//show "play again" button
+                }
             }
         };
-        threadHandler.postDelayed(shotTimer, 5000);
+        threadHandler.postDelayed(shotTimer, gameManager.shotDelay());
     }
 
     public void registerSensor(){
@@ -82,9 +112,24 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
         c.drawColor(Color.WHITE);
         target.clamp(getWidth(), getHeight());
         target.draw(c);
+        reticle.draw(c);
+        
+        Paint paint = new Paint(); 
+        paint.setColor(Color.BLACK); 
+        paint.setTextSize(20); 
+        c.drawText("Score: " + gameManager.getScore(), 5, 5, paint); 
+        c.drawText("Shots: " + gameManager.getShotsLeft(), 5, 15, paint);
+        
         if(paused){
             c.drawColor(Color.argb(128, 0,0,0));
         }
+    }
+    
+    private void randTargetPosition() {
+    	Random r = new Random();
+    	target.setPosition(r.nextInt() % this.getWidth(), r.nextInt() % this.getHeight());
+    	//target.setVelocity(0, 0); probably not, but maybe?
+    	target.clamp(getWidth(), getHeight());
     }
 
     public void gameplayPause(){
@@ -99,7 +144,11 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
         paused = false;
         registerSensor();
         lastShotResume = System.currentTimeMillis();
-        threadHandler.postDelayed(shotTimer, 5000-shotWaitElapsed);
+        threadHandler.postDelayed(shotTimer, gameManager.shotDelay()-shotWaitElapsed);
+    }
+    
+    private boolean targetUnderReticle() {
+    	return target.boundingRect().contains(reticle.boundingRect());
     }
 
     @Override
