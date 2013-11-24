@@ -1,6 +1,7 @@
 package com.example.ReverseShootingGallery;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -40,6 +41,7 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
     private Runnable shotTimer;
     private long lastShotResume;
     private long shotWaitElapsed;
+    private double neutralX, neutralY;
 
     private GameManager gameManager;
 
@@ -151,7 +153,13 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
         if(gameManager.newGame){
             shotWaitElapsed = 0;
         }
+        setNeutrals();
         threadHandler.postDelayed(shotTimer, gameManager.shotDelay() - shotWaitElapsed);
+    }
+    private void setNeutrals(){
+        SharedPreferences shared = mContext.getSharedPreferences(prefString, Context.MODE_PRIVATE);
+        neutralX = shared.getFloat("neutralX", 0);
+        neutralY = shared.getFloat("neutralY", 0);
     }
 
     private boolean targetUnderReticle() {
@@ -173,7 +181,7 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        target.setVelocity(event.values[1], event.values[0]);
+        target.setVelocity(event.values[1]-neutralX, event.values[0]-neutralY);
         Log.d(logString, event.values[1] + " " + event.values[0]);
     }
 
