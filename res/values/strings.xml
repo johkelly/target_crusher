@@ -12,4 +12,5 @@
     <string name="rank3">3</string>
     <string name="rank4">4</string>
     <string name="rank5">5</string>
+    <string name="hs_title">High Scores</string>
 </resources>

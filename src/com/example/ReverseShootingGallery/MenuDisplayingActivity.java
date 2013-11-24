@@ -1,19 +1,14 @@
 package com.example.ReverseShootingGallery;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
+import com.example.ReverseShootingGallery.fragments.HighScoreDialogFragment;
 
-/**
- * Created with IntelliJ IDEA.
- * User: jack
- * Date: 11/11/13
- * Time: 6:18 PM
- * To change this template use File | Settings | File Templates.
- */
 public class MenuDisplayingActivity extends Activity {
 
     // TODO: Allow to remove on menu item (no menu to "self")
@@ -43,7 +38,8 @@ public class MenuDisplayingActivity extends Activity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 break;
             case R.id.action_scores:
-                Toast.makeText(this, "High Scores Yo", Toast.LENGTH_SHORT).show();
+                FragmentManager fm = getFragmentManager();
+                fm.beginTransaction().add(new HighScoreDialogFragment(), "high").addToBackStack("high").commit();
                 return true;
             default:
                 return false;
