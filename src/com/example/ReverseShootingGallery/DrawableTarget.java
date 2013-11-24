@@ -22,15 +22,20 @@ public class DrawableTarget {
     private double posX;
     private double posY;
     private final Drawable drawable;
+    private double collRadius;
 
-    public DrawableTarget(int x, int y, int resId, Resources resources) {
+    public double velScale = 3.0;
+    public double drawScale = 1.0;
+
+    public DrawableTarget(int x, int y, int resId, Resources resources, double drawScale, double collRadius) {
         drawable = resources.getDrawable(resId);
-        width = drawable.getIntrinsicHeight();
-        height = drawable.getIntrinsicHeight();
+        width = (int) (drawable.getIntrinsicHeight() * drawScale);
+        height = (int) (drawable.getIntrinsicHeight() * drawScale);
         posX = x;
         posY = y;
         xVelocity = 0;
         yVelocity = 0;
+        this.collRadius = collRadius;
     }
 
     public void draw(Canvas c){
@@ -52,8 +57,8 @@ public class DrawableTarget {
 
     public void setVelocity(double vx, double vy){
         Log.d(logstr, "SetVelocity: " + vx + " "  + vy);
-        xVelocity = vx;
-        yVelocity = vy;
+        xVelocity = velScale * vx;
+        yVelocity = velScale * vy;
     }
     
     public void setPosition(int posX, int posY) {
@@ -74,5 +79,13 @@ public class DrawableTarget {
     public void clampPosition(int minX, int minY, int maxX, int maxY){
         posX = Math.max(minX+width/2, Math.min(posX, maxX-width/2));
         posY = Math.max(minY+height/2, Math.min(posY, maxY-height/2));
+    }
+
+    public double distanceToCenterOf(DrawableTarget other){
+        return Math.sqrt(Math.pow(posX-other.posX,2) + Math.pow(posY-other.posY, 2));
+    }
+
+    public double getCollRadius() {
+        return collRadius * drawScale;
     }
 }

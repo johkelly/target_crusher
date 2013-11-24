@@ -1,7 +1,5 @@
 package com.example.ReverseShootingGallery;
 
-import java.util.Random;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -18,6 +16,8 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.Random;
+
 /**
  * Created with IntelliJ IDEA.
  * Based very loosely on:
@@ -26,7 +26,7 @@ import android.widget.Toast;
  */
 public class GameplayView extends SurfaceView implements SensorEventListener, SurfaceHolder.Callback, View.OnTouchListener {
 
-    private static final String logString = GameplayView.class.getName()+".log";
+    private static final String logString = GameplayView.class.getName() + ".log";
 
     private DrawableTarget target;
     private DrawableTarget reticle;
@@ -39,7 +39,7 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
     private Runnable shotTimer;
     private long lastShotResume;
     private long shotWaitElapsed;
-    
+
     private GameManager gameManager;
 
     private final Context mContext;
@@ -47,114 +47,121 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
 
     public GameplayView(Context context) {
         super(context);
-        target = new DrawableTarget(300, 300, R.drawable.target_blue, getResources());
-        reticle = new DrawableTarget(this.getHeight()/2, this.getWidth()/2, R.drawable.reticle, getResources());
+        target = new DrawableTarget(300, 300, R.drawable.target_blue, getResources(), 1.0, 110);
+        // initialize position later
+        reticle = new DrawableTarget(0, 0, R.drawable.reticle, getResources(), 1.0, 40);
         this.mContext = context;
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
         setOnTouchListener(this);
-        
+
         this.gameManager = GameManager.getInstance();
-        
+
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         threadHandler = new Handler();
         shotTimer = new Runnable() {
             @Override
             public void run() {
-                if (!gameManager.gameOver()) {
-                	if (targetUnderReticle()) {
-                		gameManager.targetHit();
-                		randTargetPosition();
-                		//flash!
-                		//bang!
-                        Toast.makeText(mContext, "Target Hit!", Toast.LENGTH_SHORT).show();
-                	} else {
-                		gameManager.targetMiss();
-                		//sad noise
-                		Toast.makeText(mContext, "Target Miss!", Toast.LENGTH_SHORT).show();
-                	}
-                	invalidate();
-                	lastShotResume = System.currentTimeMillis();
+                // Collision
+                if (targetUnderReticle()) {
+                    gameManager.targetHit();
+                    randTargetPosition();
+                    //flash!
+                    //bang!
+                    Toast.makeText(mContext, "Target Hit!", Toast.LENGTH_SHORT).show();
+                } else {
+                    gameManager.targetMiss();
+                    //sad noise
+                    Toast.makeText(mContext, "Target Miss!", Toast.LENGTH_SHORT).show();
+                }
+                // Game state/update
+                if (gameManager.gameOver()) {
+                    gameManager.storeScore();
+                    gameManager.resetGame(); // TODO: Move to NewGameButton callback
+                    randTargetPosition();
+                    gameplayPause();
+                    //show high score menu
+                    //show "play again" button
+                } else {
+                    invalidate();
+                    lastShotResume = System.currentTimeMillis();
                     threadHandler.postDelayed(this, gameManager.shotDelay());
                     shotWaitElapsed = 0;
-                } else {
-                	gameManager.storeScore();
-                	gameManager.resetGame();
-                	gameplayPause();
-                	
-                	//show high score menu
-                	//show "play again" button
                 }
             }
         };
-        threadHandler.postDelayed(shotTimer, gameManager.shotDelay());
     }
 
-    public void registerSensor(){
+    public void registerSensor() {
         sensorManager.registerListener(this, accelSensor, SensorManager.SENSOR_DELAY_GAME);
     }
 
-    public void unregisterSensor(){
+    public void unregisterSensor() {
         sensorManager.unregisterListener(this);
     }
 
     @Override
-    public void onDraw(Canvas c){
+    public void onDraw(Canvas c) {
         super.onDraw(c);
     }
 
-    public void manualUpdate(){
+    public void manualUpdate() {
         target.update();
     }
 
-    public void manualDraw(Canvas c){
+    public void manualDraw(Canvas c) {
         c.drawColor(Color.WHITE);
         target.clamp(getWidth(), getHeight());
         target.draw(c);
+        reticle.setPosition(this.getWidth() / 2, this.getHeight() / 2);
         reticle.draw(c);
-        
-        Paint paint = new Paint(); 
-        paint.setColor(Color.BLACK); 
-        paint.setTextSize(20); 
-        c.drawText("Score: " + gameManager.getScore(), 5, 5, paint); 
-        c.drawText("Shots: " + gameManager.getShotsLeft(), 5, 15, paint);
-        
-        if(paused){
-            c.drawColor(Color.argb(128, 0,0,0));
+
+        Paint paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(35);
+        c.drawText("Score: " + gameManager.getScore(), 5, 35, paint);
+        c.drawText("Shots: " + gameManager.getShotsLeft(), 5, 70, paint);
+
+        if (paused) {
+            c.drawColor(Color.argb(128, 0, 0, 0));
         }
     }
-    
+
     private void randTargetPosition() {
-    	Random r = new Random();
-    	target.setPosition(r.nextInt() % this.getWidth(), r.nextInt() % this.getHeight());
-    	//target.setVelocity(0, 0); probably not, but maybe?
-    	target.clamp(getWidth(), getHeight());
+        Random r = new Random();
+        target.setPosition(r.nextInt() % this.getWidth(), r.nextInt() % this.getHeight());
+        //target.setVelocity(0, 0); probably not, but maybe?
+        target.clamp(getWidth(), getHeight());
     }
 
-    public void gameplayPause(){
+    public void gameplayPause() {
         paused = true;
         unregisterSensor();
-        target.setVelocity(0,0);
+        target.setVelocity(0, 0);
         shotWaitElapsed += (System.currentTimeMillis() - lastShotResume);
         threadHandler.removeCallbacks(shotTimer);
     }
 
-    public void gameplayUnpause(){
+    public void gameplayUnpause() {
         paused = false;
         registerSensor();
         lastShotResume = System.currentTimeMillis();
-        threadHandler.postDelayed(shotTimer, gameManager.shotDelay()-shotWaitElapsed);
+        if(gameManager.newGame){
+            shotWaitElapsed = 0;
+        }
+        threadHandler.postDelayed(shotTimer, gameManager.shotDelay() - shotWaitElapsed);
     }
-    
+
     private boolean targetUnderReticle() {
-    	return target.boundingRect().contains(reticle.boundingRect());
+        double dist = target.distanceToCenterOf(reticle);
+        return dist < target.getCollRadius();
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event){
-        if(v == this){
-            if(!paused){
+    public boolean onTouch(View v, MotionEvent event) {
+        if (v == this) {
+            if (!paused) {
                 gameplayPause();
             } else {
                 gameplayUnpause();
@@ -190,8 +197,8 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
     public void surfaceDestroyed(SurfaceHolder holder) {
         gameThread.running = false;
         boolean retry = true;
-        while(retry){
-            try{
+        while (retry) {
+            try {
                 gameThread.join();
                 retry = false;
             } catch (InterruptedException e) {
