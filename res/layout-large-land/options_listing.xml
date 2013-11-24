@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/options_list_fragment"
-        android:name="com.example.ReverseShootingGallery.OptionsListFragment"
+        android:name="com.example.ReverseShootingGallery.fragments.OptionsListFragment"
         android:layout_width="214dp"
         android:layout_weight="1" 
         android:layout_gravity="top"

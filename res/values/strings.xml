@@ -6,4 +6,6 @@
     <string name="action_about">About</string>
     <string name="action_help">Help</string>
     <string name="action_scores">High Scores</string>
+    <string name="calibrate">Set Neutral Position</string>
+    <string name="calibr_title">Calibration</string>
 </resources>
