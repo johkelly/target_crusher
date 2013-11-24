@@ -7,5 +7,9 @@
     <string name="action_help">Help</string>
     <string name="action_scores">High Scores</string>
     <string name="calibrate">Set Neutral Position</string>
-    <string name="calibr_title">Calibration</string>
+    <string name="calibr_title">Calibration</string><string name="rank1">1</string>
+    <string name="rank2">2</string>
+    <string name="rank3">3</string>
+    <string name="rank4">4</string>
+    <string name="rank5">5</string>
 </resources>
