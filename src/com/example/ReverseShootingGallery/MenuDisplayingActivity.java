@@ -36,7 +36,9 @@ public class MenuDisplayingActivity extends Activity implements HighScoreDialogF
                 break;
             case R.id.action_scores:
                 FragmentManager fm = getFragmentManager();
-                fm.beginTransaction().add(new HighScoreDialogFragment(this), "high").addToBackStack("high").commit();
+                HighScoreDialogFragment f = new HighScoreDialogFragment();
+                f.setListener(this);
+                fm.beginTransaction().add(f, "high").addToBackStack("high").commit();
                 return true;
             default:
                 return false;

@@ -16,7 +16,7 @@ import java.util.List;
 
 public class HighScoreDialogFragment extends DialogFragment {
 
-    private final HSDListener listener;
+    private HSDListener listener;
     private GameManager manager;
     private View view;
 
@@ -26,7 +26,7 @@ public class HighScoreDialogFragment extends DialogFragment {
         public void onDismiss();
     }
 
-    public HighScoreDialogFragment(HSDListener listener) {
+    public void setListener(HSDListener listener) {
         this.listener = listener;
         manager = GameManager.getInstance();
     }
