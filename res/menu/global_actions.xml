@@ -4,7 +4,7 @@
     <item android:id="@+id/action_options"
           android:icon="@drawable/ic_action_settings"
           android:title="@string/action_options" />
-    <item android:id="@+id/action_about"
+    <item android:id="@+id/blue_color_button"
           android:icon="@drawable/ic_action_about"
           android:title="@string/action_about" />
     <item android:id="@+id/action_help"

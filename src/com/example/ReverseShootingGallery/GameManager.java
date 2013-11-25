@@ -7,12 +7,19 @@ import android.content.SharedPreferences;
 
 public class GameManager {
 
-    public static int EASY = 9001, MEDIUM = 6666, HARD = 2112, DEBUG = 1;
+    public static final int EASY = 9001, MEDIUM = 6666, HARD = 2112, DEBUG = 1;
+    public static final int PINK = 0, BLUE = 1, RAINBOW = 2;
 
-    private static String SCORES_KEY = "edu.mines.zfjk.ReverseShootingGallery.Scores";
-    private static String NAME_KEY = "edu.mines.zfjk.ReverseShootingGallery.Name";
+    private static final String SCORES_KEY = "edu.mines.zfjk.ReverseShootingGallery.Scores";
+    private static final String NAME_KEY = "edu.mines.zfjk.ReverseShootingGallery.Name";
+    
+    public interface GameManagerListener{
+        public void updateColor();
+    }
+    public GameManagerListener listener;
 
     private int difficulty;
+    private int color;
     private int shotsPerRound;
     private int currentScore;
     private String playerName;
@@ -137,5 +144,27 @@ public class GameManager {
 
     public int shotDelay() {
         return this.difficulty;
+    }
+    
+    public int getTargetColor() {
+    	return color;
+    }
+    
+    public void setTargetColor(int color) {
+    	switch (color) {
+    	case PINK:
+    		this.color = PINK;
+    		break;
+    	case BLUE:
+    		this.color = BLUE;
+    		break;
+    	case RAINBOW:
+    		this.color = RAINBOW;
+    		break;
+    	default:
+    		this.color = BLUE;
+    		break;
+    	}
+    	listener.updateColor();
     }
 }

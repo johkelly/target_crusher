@@ -4,9 +4,22 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="fill_parent"
+    <Button
+        android:id="@+id/pink_color_button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Appearance Placeholder"
-        android:id="@+id/textView"/>
+        android:text="@string/pink" />
+
+    <Button
+        android:id="@+id/blue_color_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/blue" />
+
+    <Button
+        android:id="@+id/rainbow_color_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/rainbow" />
+
 </LinearLayout>
