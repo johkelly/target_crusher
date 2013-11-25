@@ -245,14 +245,23 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
 	public void updateColor() {
 		switch(gameManager.getTargetColor()) {
         case GameManager.PINK:
-        	target = new DrawableTarget(300, 300, R.drawable.target_pink, getResources(), 1.0, 110);
+        	target = new DrawableTarget(300, 300, R.drawable.target_pink, getResources(), 1.0, 1.0*110);
         	break;
         case GameManager.BLUE:
-        	target = new DrawableTarget(300, 300, R.drawable.target_blue, getResources(), 1.0, 110);
+        	target = new DrawableTarget(300, 300, R.drawable.target_blue, getResources(), 1.0, 1.0*110);
         	break;
         case GameManager.RAINBOW:
-        	target = new DrawableTarget(300, 300, R.drawable.target_rainbow, getResources(), 1.0, 110);
+        	target = new DrawableTarget(300, 300, R.drawable.target_rainbow, getResources(), 1.0, 1.0*110);
         	break;
         }
 	}
+
+    public void updateScale(){
+        double sy = (getResources().getDrawable(R.drawable.target_blue).getIntrinsicHeight())/(getHeight()/3.0);
+        double sx = (getResources().getDrawable(R.drawable.target_blue).getIntrinsicWidth())/(getWidth()/3.0);
+        double s = Math.max(sy, sx);
+        s = 1.0/s;
+        target.setScale(s);
+        reticle.setScale(s);
+    }
 }

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewTreeObserver;
 
 /**
  * @author zachary fleischman and john kelly
@@ -30,10 +32,16 @@ public class GameplayActivity extends MenuDisplayingActivity {
         super.onCreate(savedInstanceState);
         gameView = new GameplayView(this);
         setContentView(gameView);
+        gameView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                gameView.updateScale();
+                gameView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
         gameManager = GameManager.getInstance();
         SharedPreferences prefs = getSharedPreferences(GameManager.PREFS_KEY, Context.MODE_PRIVATE);
         gameManager.getStashedValues(prefs);
-
     }
 
     @Override

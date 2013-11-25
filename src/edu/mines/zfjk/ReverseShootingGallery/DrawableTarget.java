@@ -93,4 +93,10 @@ public class DrawableTarget {
     public double getCollRadius() {
         return collRadius * drawScale;
     }
+
+    public void setScale(double scale) {
+        drawScale = scale;
+        width = (int) (drawable.getIntrinsicHeight() * drawScale);
+        height = (int) (drawable.getIntrinsicHeight() * drawScale);
+    }
 }
