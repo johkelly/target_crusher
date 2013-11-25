@@ -2,7 +2,6 @@ package com.example.ReverseShootingGallery;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 

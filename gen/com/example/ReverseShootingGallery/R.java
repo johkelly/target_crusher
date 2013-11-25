@@ -24,28 +24,57 @@ public final class R {
         public static final int ic_action_settings=0x7f02000a;
         public static final int ic_action_storage=0x7f02000b;
         public static final int ic_launcher=0x7f02000c;
-        public static final int reticle=0x7f02000d;
-        public static final int target_blue=0x7f02000e;
+        public static final int icon=0x7f02000d;
+        public static final int reticle=0x7f02000e;
+        public static final int target_blue=0x7f02000f;
     }
     public static final class id {
-        public static final int CalibrTitle=0x7f060001;
-        public static final int OptionsTempTextView=0x7f060008;
-        public static final int action_about=0x7f06000f;
-        public static final int action_help=0x7f060010;
-        public static final int action_options=0x7f06000e;
-        public static final int action_scores=0x7f060011;
-        public static final int calibrate_btn=0x7f060006;
-        public static final int calibrate_prog=0x7f060005;
-        public static final int device_image=0x7f060002;
-        public static final int option_name=0x7f06000d;
-        public static final int options_detail_fragment_container=0x7f06000c;
-        public static final int options_list_fragment=0x7f06000b;
-        public static final int options_listing=0x7f06000a;
-        public static final int solo_options_fragment_container=0x7f060009;
-        public static final int textView=0x7f060000;
-        public static final int tilt_x=0x7f060003;
-        public static final int tilt_y=0x7f060004;
-        public static final int view=0x7f060007;
+        public static final int CalibrTitle=0x7f040002;
+        public static final int OptionsTempTextView=0x7f040024;
+        public static final int action_about=0x7f04002b;
+        public static final int action_help=0x7f04002c;
+        public static final int action_options=0x7f04002a;
+        public static final int action_scores=0x7f04002d;
+        public static final int calibrate_btn=0x7f040007;
+        public static final int calibrate_prog=0x7f040006;
+        public static final int device_image=0x7f040003;
+        public static final int ge_name=0x7f040008;
+        public static final int ge_score=0x7f040009;
+        public static final int hs_row1=0x7f04000b;
+        public static final int hs_row2=0x7f040010;
+        public static final int hs_row3=0x7f040014;
+        public static final int hs_row4=0x7f040019;
+        public static final int hs_row5=0x7f04001e;
+        public static final int hs_table=0x7f04000a;
+        public static final int option_name=0x7f040029;
+        public static final int options_detail_fragment_container=0x7f040028;
+        public static final int options_list_fragment=0x7f040027;
+        public static final int options_listing=0x7f040026;
+        public static final int rank=0x7f04000c;
+        public static final int rank2=0x7f040000;
+        public static final int row1_date=0x7f04000f;
+        public static final int row1_name=0x7f04000d;
+        public static final int row1_score=0x7f04000e;
+        public static final int row2_date=0x7f040013;
+        public static final int row2_name=0x7f040011;
+        public static final int row2_score=0x7f040012;
+        public static final int row3_date=0x7f040018;
+        public static final int row3_name=0x7f040016;
+        public static final int row3_score=0x7f040017;
+        public static final int row4_date=0x7f04001d;
+        public static final int row4_name=0x7f04001b;
+        public static final int row4_score=0x7f04001c;
+        public static final int row5_date=0x7f040022;
+        public static final int row5_name=0x7f040020;
+        public static final int row5_score=0x7f040021;
+        public static final int solo_options_fragment_container=0x7f040025;
+        public static final int textView=0x7f040001;
+        public static final int textView12=0x7f04001f;
+        public static final int textView4=0x7f040015;
+        public static final int textView8=0x7f04001a;
+        public static final int tilt_x=0x7f040004;
+        public static final int tilt_y=0x7f040005;
+        public static final int view=0x7f040023;
     }
     public static final class layout {
         public static final int about=0x7f030000;
@@ -53,23 +82,34 @@ public final class R {
         public static final int calibration=0x7f030002;
         public static final int data=0x7f030003;
         public static final int difficulty=0x7f030004;
-        public static final int help=0x7f030005;
-        public static final int main=0x7f030006;
-        public static final int options_detail=0x7f030007;
-        public static final int options_listing=0x7f030008;
-        public static final int options_row=0x7f030009;
+        public static final int game_end=0x7f030005;
+        public static final int help=0x7f030006;
+        public static final int high_scores=0x7f030007;
+        public static final int main=0x7f030008;
+        public static final int options_detail=0x7f030009;
+        public static final int options_listing=0x7f03000a;
+        public static final int options_row=0x7f03000b;
     }
     public static final class menu {
-        public static final int global_actions=0x7f050000;
+        public static final int global_actions=0x7f060000;
     }
     public static final class string {
-        public static final int action_about=0x7f040003;
-        public static final int action_help=0x7f040004;
-        public static final int action_options=0x7f040002;
-        public static final int action_scores=0x7f040005;
-        public static final int app_name=0x7f040000;
-        public static final int app_name_options=0x7f040001;
-        public static final int calibr_title=0x7f040007;
-        public static final int calibrate=0x7f040006;
+        public static final int action_about=0x7f050003;
+        public static final int action_help=0x7f050004;
+        public static final int action_options=0x7f050002;
+        public static final int action_scores=0x7f050005;
+        public static final int app_name=0x7f050000;
+        public static final int app_name_options=0x7f050001;
+        public static final int calibr_title=0x7f050007;
+        public static final int calibrate=0x7f050006;
+        public static final int ge_discard=0x7f05000f;
+        public static final int ge_newgame=0x7f05000e;
+        public static final int ge_title=0x7f050010;
+        public static final int hs_title=0x7f05000d;
+        public static final int rank1=0x7f050008;
+        public static final int rank2=0x7f050009;
+        public static final int rank3=0x7f05000a;
+        public static final int rank4=0x7f05000b;
+        public static final int rank5=0x7f05000c;
     }
 }
