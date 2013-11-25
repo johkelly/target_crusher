@@ -57,7 +57,11 @@ public class GameManager {
         Collections.sort(scores, new Comparator<Score>() {
             @Override
             public int compare(Score score, Score score2) {
-                return -1 * (Integer.parseInt(score.score) - Integer.parseInt(score2.score));
+                try {
+                    return -1 * (Integer.parseInt(score.score) - Integer.parseInt(score2.score));
+                } catch (NumberFormatException nfe) {
+                    return 1;
+                }
             }
         });
         cullScores();

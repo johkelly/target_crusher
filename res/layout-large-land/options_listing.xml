@@ -9,13 +9,13 @@
     <fragment
         android:id="@+id/options_list_fragment"
         android:name="edu.mines.zfjk.ReverseShootingGallery.fragments.OptionsListFragment"
-        android:layout_width="214dp"
+        android:layout_width="0dp"
         android:layout_weight="1" 
         android:layout_gravity="top"
         android:layout_height="match_parent" />
 
     <FrameLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent" 
         android:id="@+id/options_detail_fragment_container"
         android:layout_weight="2">
