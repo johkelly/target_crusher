@@ -13,4 +13,7 @@
     <string name="rank4">4</string>
     <string name="rank5">5</string>
     <string name="hs_title">High Scores</string>
+    <string name="ge_newgame">New Game</string>
+    <string name="ge_discard">Discard</string>
+    <string name="ge_title">Your Score This Round</string>
 </resources>

@@ -98,7 +98,7 @@ public class GameManager {
 	}
 
 	public boolean gameOver() {
-		return (this.shotsLeft == 0);
+		return (this.shotsLeft <= 0);
 	}
 
 	public void resetGame() {

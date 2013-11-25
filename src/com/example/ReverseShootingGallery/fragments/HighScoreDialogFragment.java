@@ -45,7 +45,6 @@ public class HighScoreDialogFragment extends DialogFragment{
         // Pass null as the parent view because its going in the dialog layout
         builder.setView(inflater.inflate(R.layout.high_scores, null));
         builder.setMessage(R.string.hs_title);
-        // TODO: Set up score data
         Dialog d = builder.create();
         populateScores(d);
         // Create the AlertDialog object and return it

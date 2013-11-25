@@ -1,5 +1,7 @@
 package com.example.ReverseShootingGallery;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
@@ -9,6 +11,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -16,6 +19,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Toast;
+import com.example.ReverseShootingGallery.fragments.GameEndDialogFragment;
+import com.example.ReverseShootingGallery.fragments.HighScoreDialogFragment;
 
 import java.util.Random;
 
@@ -80,8 +85,8 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
                 }
                 // Game state/update
                 if (gameManager.gameOver()) {
-                    gameManager.storeScore();
-                    gameManager.resetGame(); // TODO: Move to NewGameButton callback
+                    // New game end fragment dialog
+                    ((Activity)mContext).getFragmentManager().beginTransaction().add(new GameEndDialogFragment(), "end").addToBackStack("end").commit();
                     randTargetPosition();
                     gameplayPause();
                     //show high score menu
