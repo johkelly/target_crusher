@@ -46,11 +46,14 @@ public class GameManager {
         Collections.sort(scores, new Comparator<Score>() {
             @Override
             public int compare(Score score, Score score2) {
-                return -1 * (score.score - score2.score);
+                return -1 * (Integer.parseInt(score.score) - Integer.parseInt(score2.score));
             }
         });
         while(scores.size() > 5){
             scores.remove(scores.size()-1);
+        }
+        while(scores.size() < 5) {
+        	scores.add(new Score("", "", ""));
         }
 	}
 
