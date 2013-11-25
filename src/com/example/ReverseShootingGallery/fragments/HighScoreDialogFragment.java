@@ -6,6 +6,9 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.webkit.WebView.FindListener;
+import android.widget.TextView;
+
 import com.example.ReverseShootingGallery.GameManager;
 import com.example.ReverseShootingGallery.R;
 import com.example.ReverseShootingGallery.Score;
@@ -53,7 +56,26 @@ public class HighScoreDialogFragment extends DialogFragment{
 
     private void populateScores(Dialog d) {
         List<Score> scores = manager.getTop5Scores();
-        return;
+        
+        ((TextView) getView().findViewById(R.id.row1_name)).setText(scores.get(0).name);
+        ((TextView) getView().findViewById(R.id.row1_score)).setText(scores.get(0).score);
+        ((TextView) getView().findViewById(R.id.row1_date)).setText(scores.get(0).date);
+        
+        ((TextView) getView().findViewById(R.id.row2_name)).setText(scores.get(1).name);
+        ((TextView) getView().findViewById(R.id.row2_score)).setText(scores.get(1).score);
+        ((TextView) getView().findViewById(R.id.row2_date)).setText(scores.get(1).date);
+        
+        ((TextView) getView().findViewById(R.id.row3_name)).setText(scores.get(2).name);
+        ((TextView) getView().findViewById(R.id.row3_score)).setText(scores.get(2).score);
+        ((TextView) getView().findViewById(R.id.row3_date)).setText(scores.get(2).date);
+        
+        ((TextView) getView().findViewById(R.id.row4_name)).setText(scores.get(3).name);
+        ((TextView) getView().findViewById(R.id.row4_score)).setText(scores.get(3).score);
+        ((TextView) getView().findViewById(R.id.row4_date)).setText(scores.get(3).date);
+        
+        ((TextView) getView().findViewById(R.id.row5_name)).setText(scores.get(4).name);
+        ((TextView) getView().findViewById(R.id.row5_score)).setText(scores.get(4).score);
+        ((TextView) getView().findViewById(R.id.row5_date)).setText(scores.get(4).date);
     }
 
     @Override
