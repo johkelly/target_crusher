@@ -54,7 +54,7 @@ public class OptionsActivity extends MenuDisplayingActivity implements OptionsLi
     public void onPause(){
         super.onPause();
         GameManager m = GameManager.getInstance();
-        GameManager.getInstance().stashValues(getSharedPreferences(GameManager.PREFS_KEY, Context.MODE_PRIVATE));
+        m.stashValues(getSharedPreferences(GameManager.PREFS_KEY, Context.MODE_PRIVATE));
     }
 
     @Override

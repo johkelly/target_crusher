@@ -57,11 +57,7 @@ public class GameManager {
         Collections.sort(scores, new Comparator<Score>() {
             @Override
             public int compare(Score score, Score score2) {
-                try {
-                    return -1 * (Integer.parseInt(score.score) - Integer.parseInt(score2.score));
-                } catch (NumberFormatException nfe) {
-                    return 1;
-                }
+                return -1 * (score.score - score2.score);
             }
         });
         cullScores();
@@ -72,7 +68,7 @@ public class GameManager {
             scores.remove(scores.size() - 1);
         }
         while (scores.size() < 5) {
-            scores.add(new Score("", "", ""));
+            scores.add(new Score("", -1, ""));
         }
     }
 
@@ -87,7 +83,9 @@ public class GameManager {
                 if (score.valid) {
                     this.scores.add(score);
                 } else {
-                	this.scores.add(new Score("","",""));
+                	Score nullScore = new Score("",-1,"");
+                	nullScore.valid = false;
+                	this.scores.add(nullScore);
                 }
             }
         }
