@@ -1,4 +1,4 @@
-package com.example.ReverseShootingGallery;
+package edu.mines.zfjk.ReverseShootingGallery;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,8 +16,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.widget.Toast;
-import com.example.ReverseShootingGallery.fragments.GameEndDialogFragment;
+import edu.mines.zfjk.ReverseShootingGallery.fragments.GameEndDialogFragment;
 
 import java.util.Random;
 

@@ -8,7 +8,7 @@
     <view
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        class="com.example.ReverseShootingGallery.GameplayView"
+        class="edu.mines.zfjk.ReverseShootingGallery.GameplayView"
         android:id="@+id/view"
         android:layout_gravity="center" />
 </FrameLayout>

@@ -1,4 +1,4 @@
-package com.example.ReverseShootingGallery.fragments;
+package edu.mines.zfjk.ReverseShootingGallery.fragments;
 
 
 import android.app.Activity;
@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
-import com.example.ReverseShootingGallery.OptionsActivity;
-import com.example.ReverseShootingGallery.OptionsAdapter;
-import com.example.ReverseShootingGallery.R;
+import edu.mines.zfjk.ReverseShootingGallery.OptionsActivity;
+import edu.mines.zfjk.ReverseShootingGallery.OptionsAdapter;
+import edu.mines.zfjk.ReverseShootingGallery.R;
 
 public class OptionsListFragment extends ListFragment {
 

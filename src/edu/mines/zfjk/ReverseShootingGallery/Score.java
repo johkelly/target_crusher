@@ -1,4 +1,4 @@
-package com.example.ReverseShootingGallery;
+package edu.mines.zfjk.ReverseShootingGallery;
 
 public class Score {
     public String name;

@@ -1,4 +1,4 @@
-package com.example.ReverseShootingGallery;
+package edu.mines.zfjk.ReverseShootingGallery;
 
 import java.text.SimpleDateFormat;
 import java.util.*;

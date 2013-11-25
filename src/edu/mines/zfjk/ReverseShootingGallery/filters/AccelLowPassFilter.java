@@ -1,4 +1,4 @@
-package com.example.ReverseShootingGallery.filters;
+package edu.mines.zfjk.ReverseShootingGallery.filters;
 
 public class AccelLowPassFilter {
     float filterX, filterY;

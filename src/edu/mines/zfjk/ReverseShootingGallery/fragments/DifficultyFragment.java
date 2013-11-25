@@ -1,4 +1,4 @@
-package com.example.ReverseShootingGallery.fragments;
+package edu.mines.zfjk.ReverseShootingGallery.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import com.example.ReverseShootingGallery.GameManager;
-import com.example.ReverseShootingGallery.R;
+import edu.mines.zfjk.ReverseShootingGallery.GameManager;
+import edu.mines.zfjk.ReverseShootingGallery.R;
 
 /**
  * Created with IntelliJ IDEA.

@@ -1,4 +1,4 @@
-package com.example.ReverseShootingGallery;
+package edu.mines.zfjk.ReverseShootingGallery;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import com.example.ReverseShootingGallery.fragments.HighScoreDialogFragment;
+import edu.mines.zfjk.ReverseShootingGallery.fragments.HighScoreDialogFragment;
 
 public class MenuDisplayingActivity extends Activity implements HighScoreDialogFragment.HSDListener {
 

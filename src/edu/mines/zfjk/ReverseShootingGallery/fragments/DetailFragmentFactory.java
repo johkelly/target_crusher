@@ -1,4 +1,4 @@
-package com.example.ReverseShootingGallery.fragments;
+package edu.mines.zfjk.ReverseShootingGallery.fragments;
 
 import android.app.Fragment;
 import android.util.Log;

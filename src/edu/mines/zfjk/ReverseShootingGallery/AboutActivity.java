@@ -1,4 +1,4 @@
-package com.example.ReverseShootingGallery;
+package edu.mines.zfjk.ReverseShootingGallery;
 
 import android.os.Bundle;
 import android.view.Menu;

@@ -1,4 +1,4 @@
-package com.example.ReverseShootingGallery;
+package edu.mines.zfjk.ReverseShootingGallery;
 
 
 import android.app.Fragment;
@@ -6,8 +6,8 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
-import com.example.ReverseShootingGallery.fragments.DetailFragmentFactory;
-import com.example.ReverseShootingGallery.fragments.OptionsListFragment;
+import edu.mines.zfjk.ReverseShootingGallery.fragments.DetailFragmentFactory;
+import edu.mines.zfjk.ReverseShootingGallery.fragments.OptionsListFragment;
 
 public class OptionsActivity extends MenuDisplayingActivity implements OptionsListFragment.OptionDetailsFragmentDispatcher {
 

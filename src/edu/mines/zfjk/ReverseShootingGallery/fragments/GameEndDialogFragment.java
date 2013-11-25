@@ -1,4 +1,4 @@
-package com.example.ReverseShootingGallery.fragments;
+package edu.mines.zfjk.ReverseShootingGallery.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,8 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import com.example.ReverseShootingGallery.GameManager;
-import com.example.ReverseShootingGallery.R;
+import edu.mines.zfjk.ReverseShootingGallery.GameManager;
+import edu.mines.zfjk.ReverseShootingGallery.R;
 
 public class GameEndDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
 

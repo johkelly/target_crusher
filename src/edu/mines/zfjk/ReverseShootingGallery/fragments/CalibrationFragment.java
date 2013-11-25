@@ -1,4 +1,4 @@
-package com.example.ReverseShootingGallery.fragments;
+package edu.mines.zfjk.ReverseShootingGallery.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -17,9 +17,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import com.example.ReverseShootingGallery.GameplayView;
-import com.example.ReverseShootingGallery.R;
-import com.example.ReverseShootingGallery.filters.AccelLowPassFilter;
+import edu.mines.zfjk.ReverseShootingGallery.GameplayView;
+import edu.mines.zfjk.ReverseShootingGallery.R;
+import edu.mines.zfjk.ReverseShootingGallery.filters.AccelLowPassFilter;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
