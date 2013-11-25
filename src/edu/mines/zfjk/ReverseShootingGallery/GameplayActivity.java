@@ -40,6 +40,7 @@ public class GameplayActivity extends MenuDisplayingActivity {
     public void onResume() {
         super.onResume();
         gameView.gameplayUnpause();
+        gameView.updateColor();
     }
 
     @Override
