@@ -30,7 +30,7 @@ public class GameManager {
 	}
 
 	protected GameManager() {
-		this.difficulty = DEBUG;
+		this.difficulty = HARD;
 		this.shotsPerRound = 10;
 		this.currentScore = 0;
 		this.shotsLeft = shotsPerRound;
@@ -81,7 +81,7 @@ public class GameManager {
 	}
 
 	public void setPlayerName(String name) {
-		this.playerName = name;
+		this.playerName = name.replaceAll("\\s+","");
 	}
 
 	public String getPlayerName() {
