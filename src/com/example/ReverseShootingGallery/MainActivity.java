@@ -32,7 +32,7 @@ public class MainActivity extends MenuDisplayingActivity {
         setContentView(gameView);
 
         gameManager = GameManager.getInstance();
-        SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(GameManager.PREFS_KEY, Context.MODE_PRIVATE);
         gameManager.getStashedValues(prefs);
 
     }
@@ -47,7 +47,7 @@ public class MainActivity extends MenuDisplayingActivity {
     public void onPause() {
         super.onPause();
         gameView.gameplayPause();
-        SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(GameManager.PREFS_KEY, Context.MODE_PRIVATE);
         gameManager.stashValues(prefs);
     }
 

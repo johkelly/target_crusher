@@ -14,6 +14,7 @@ public class GameManager {
     private static final String NAME_KEY = "edu.mines.zfjk.ReverseShootingGallery.Name";
     private static final String COLOR_KEY = "edu.mines.zfjk.ReverseShootingGallery.Color";
     private static final String DIFFICULTY_KEY = "edu.mines.zfjk.ReverseShootingGallery.Difficulty";
+    public static final String PREFS_KEY = "edu.mines.zfjk.ReverseShootingGallery.Values";
     
     public interface GameManagerListener{
         public void updateColor();
@@ -45,6 +46,7 @@ public class GameManager {
         this.shotsLeft = shotsPerRound;
         this.scores = new ArrayList<Score>();
         this.playerName = "ANON";
+        this.color = PINK;
     }
 
     public void storeScore() {

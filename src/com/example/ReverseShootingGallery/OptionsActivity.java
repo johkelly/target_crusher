@@ -3,6 +3,7 @@ package com.example.ReverseShootingGallery;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import com.example.ReverseShootingGallery.fragments.DetailFragmentFactory;
@@ -47,6 +48,12 @@ public class OptionsActivity extends MenuDisplayingActivity implements OptionsLi
                 }
             }
         }
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        GameManager.getInstance().stashValues(getSharedPreferences(GameManager.PREFS_KEY, Context.MODE_PRIVATE));
     }
 
     @Override
