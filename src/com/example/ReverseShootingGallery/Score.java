@@ -10,6 +10,7 @@ public class Score {
         this.name = name;
         this.score = score;
         this.date = date;
+        this.valid = true;
     }
 
     public Score(String serializedScore) {

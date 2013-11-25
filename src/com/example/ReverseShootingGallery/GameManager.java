@@ -1,18 +1,16 @@
 package com.example.ReverseShootingGallery;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
 
 import android.content.SharedPreferences;
 
 public class GameManager {
 
-	public static int EASY=9001, MEDIUM=6666, HARD=2112;
+	public static int EASY=9001, MEDIUM=6666, HARD=2112, DEBUG=1;
 
 	private static String SCORES_KEY = "edu.mines.zfjk.ReverseShootingGallery.Scores";
-	private static String NAME_KEY = "edu.mines.zfjk.ReverseShootingGallery.Scores";
+	private static String NAME_KEY = "edu.mines.zfjk.ReverseShootingGallery.Name";
 
 	private int difficulty;
 	private int shotsPerRound;
@@ -32,7 +30,7 @@ public class GameManager {
 	}
 
 	protected GameManager() {
-		this.difficulty = HARD;
+		this.difficulty = DEBUG;
 		this.shotsPerRound = 10;
 		this.currentScore = 0;
 		this.shotsLeft = shotsPerRound;
@@ -45,6 +43,15 @@ public class GameManager {
 		String currentDate = sdf.format(new Date());
 		Score score = new Score(playerName, currentScore, currentDate);
 		scores.add(score);
+        Collections.sort(scores, new Comparator<Score>() {
+            @Override
+            public int compare(Score score, Score score2) {
+                return -1 * (score.score - score2.score);
+            }
+        });
+        while(scores.size() > 5){
+            scores.remove(scores.size()-1);
+        }
 	}
 
 	public void getStashedScores(SharedPreferences prefs) {
@@ -112,6 +119,10 @@ public class GameManager {
 	public int getScore() {
 		return this.currentScore;
 	}
+
+    public List<Score> getTop5Scores(){
+        return scores;
+    }
 
 	public int getShotsLeft() {
 		return this.shotsLeft;

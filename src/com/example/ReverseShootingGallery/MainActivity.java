@@ -2,9 +2,12 @@ package com.example.ReverseShootingGallery;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 /**
  * 
@@ -36,6 +39,7 @@ public class MainActivity extends MenuDisplayingActivity {
         SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
         gameManager.getStashedScores(prefs);
         gameManager.getStashedPlayerName(prefs);
+
     }
 
     @Override
@@ -51,5 +55,18 @@ public class MainActivity extends MenuDisplayingActivity {
         SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
         gameManager.stashScores(prefs);
         gameManager.stashPlayerName(prefs);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        if(item.getItemId() == R.id.action_scores){
+            gameView.gameplayPause();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDismiss() {
+        gameView.gameplayUnpause();
     }
 }

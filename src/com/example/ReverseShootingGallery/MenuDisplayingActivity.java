@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import com.example.ReverseShootingGallery.fragments.HighScoreDialogFragment;
 
-public class MenuDisplayingActivity extends Activity {
+public class MenuDisplayingActivity extends Activity implements HighScoreDialogFragment.HSDListener{
 
     // TODO: Allow to remove on menu item (no menu to "self")
 
@@ -39,12 +39,22 @@ public class MenuDisplayingActivity extends Activity {
                 break;
             case R.id.action_scores:
                 FragmentManager fm = getFragmentManager();
-                fm.beginTransaction().add(new HighScoreDialogFragment(), "high").addToBackStack("high").commit();
+                fm.beginTransaction().add(new HighScoreDialogFragment(this), "high").addToBackStack("high").commit();
                 return true;
             default:
                 return false;
         }
         startActivity(intent);
         return true;
+    }
+
+    @Override
+    public void onVisible() {
+        // Subclass handles this
+    }
+
+    @Override
+    public void onDismiss() {
+        // Subclass handles this
     }
 }
