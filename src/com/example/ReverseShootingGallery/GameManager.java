@@ -12,6 +12,8 @@ public class GameManager {
 
     private static final String SCORES_KEY = "edu.mines.zfjk.ReverseShootingGallery.Scores";
     private static final String NAME_KEY = "edu.mines.zfjk.ReverseShootingGallery.Name";
+    private static final String COLOR_KEY = "edu.mines.zfjk.ReverseShootingGallery.Color";
+    private static final String DIFFICULTY_KEY = "edu.mines.zfjk.ReverseShootingGallery.Difficulty";
     
     public interface GameManagerListener{
         public void updateColor();
@@ -77,6 +79,20 @@ public class GameManager {
                 }
             }
         }
+    }
+    
+    public void getStashedValues(SharedPreferences prefs) {
+    	getStashedPlayerName(prefs);
+    	getStashedScores(prefs);
+    	getStashedColor(prefs);
+    	getStashedDifficulty(prefs);
+    }
+    
+    public void stashValues(SharedPreferences prefs) {
+    	stashScores(prefs);
+    	stashPlayerName(prefs);
+    	stashColor(prefs);
+    	stashDifficulty(prefs);
     }
 
     public void stashScores(SharedPreferences prefs) {
@@ -167,4 +183,20 @@ public class GameManager {
     	}
     	listener.updateColor();
     }
+
+	public void getStashedColor(SharedPreferences prefs) {
+		this.color = prefs.getInt(COLOR_KEY, PINK);
+	}
+	
+	public void getStashedDifficulty(SharedPreferences prefs) {
+		this.difficulty = prefs.getInt(DIFFICULTY_KEY, MEDIUM);
+	}
+	
+	public void stashColor(SharedPreferences prefs) {
+		prefs.edit().putInt(COLOR_KEY, this.color).commit();
+	}
+	
+	public void stashDifficulty(SharedPreferences prefs) {
+		prefs.edit().putInt(DIFFICULTY_KEY, this.difficulty).commit();
+	}
 }
