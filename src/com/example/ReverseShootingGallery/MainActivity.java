@@ -2,29 +2,24 @@ package com.example.ReverseShootingGallery;
 
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
-import com.example.ReverseShootingGallery.fragments.GameEndDialogFragment;
 
 /**
- * 
  * @author zachary fleischman and john kelly
- *
- * Functionality:
- * 	This intermediate submission implements the following functionalities as specified in the design document:
- * 		1. App tracks orientation of device and moves target on screen appropriately
- * 		2. User may tap the screen to pause the game (stop tracking motion)
- * 		3. User may navigate to empty activities, which serve as place holders for the Options, Help, and About activities.
+ *         <p/>
+ *         Functionality:
+ *         This intermediate submission implements the following functionalities as specified in the design document:
+ *         1. App tracks orientation of device and moves target on screen appropriately
+ *         2. User may tap the screen to pause the game (stop tracking motion)
+ *         3. User may navigate to empty activities, which serve as place holders for the Options, Help, and About activities.
  */
 
 public class MainActivity extends MenuDisplayingActivity {
 
     GameplayView gameView;
-    
+
     GameManager gameManager;
 
     /**
@@ -35,7 +30,7 @@ public class MainActivity extends MenuDisplayingActivity {
         super.onCreate(savedInstanceState);
         gameView = new GameplayView(this);
         setContentView(gameView);
-        
+
         gameManager = GameManager.getInstance();
         SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
         gameManager.getStashedScores(prefs);
@@ -44,13 +39,13 @@ public class MainActivity extends MenuDisplayingActivity {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         gameView.gameplayUnpause();
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         gameView.gameplayPause();
         SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
@@ -59,8 +54,8 @@ public class MainActivity extends MenuDisplayingActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        if(item.getItemId() == R.id.action_scores){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_scores) {
             gameView.gameplayPause();
         }
         return super.onOptionsItemSelected(item);

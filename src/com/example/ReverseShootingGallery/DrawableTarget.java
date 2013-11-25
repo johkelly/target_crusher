@@ -14,8 +14,8 @@ import android.util.Log;
  * Time: 3:27 PM
  */
 public class DrawableTarget {
-    private static String logstr = DrawableTarget.class.getSimpleName()+".log";
-    
+    private static String logstr = DrawableTarget.class.getSimpleName() + ".log";
+
     private int width, height;
     private double xVelocity;
     private double yVelocity;
@@ -38,51 +38,43 @@ public class DrawableTarget {
         this.collRadius = collRadius;
     }
 
-    public void draw(Canvas c){
-        int l = (int) (posX - width/2);
-        int t = (int) (posY - height/2);
-        int r = (int) (posX + width/2);
-        int b = (int) (posY + height/2);
+    public void draw(Canvas c) {
+        int l = (int) (posX - width / 2);
+        int t = (int) (posY - height / 2);
+        int r = (int) (posX + width / 2);
+        int b = (int) (posY + height / 2);
         drawable.setBounds(l, t, r, b);
         drawable.draw(c);
     }
-    
-    public Rect boundingRect() {
-    	int l = (int) (posX - width/2);
-        int t = (int) (posY - height/2);
-        int r = (int) (posX + width/2);
-        int b = (int) (posY + height/2);
-        return new Rect(l, t, r, b);
-    }
 
-    public void setVelocity(double vx, double vy){
-        Log.d(logstr, "SetVelocity: " + vx + " "  + vy);
+    public void setVelocity(double vx, double vy) {
+        Log.d(logstr, "SetVelocity: " + vx + " " + vy);
         xVelocity = velScale * vx;
         yVelocity = velScale * vy;
     }
-    
+
     public void setPosition(int posX, int posY) {
-    	this.posX = posX;
-    	this.posY = posY;
+        this.posX = posX;
+        this.posY = posY;
     }
 
-    public void update(){
+    public void update() {
         Log.d(logstr, "Update; " + xVelocity + " " + yVelocity);
         posX += xVelocity;
         posY += yVelocity;
     }
 
-    public void clamp(int maxX, int maxY){
+    public void clamp(int maxX, int maxY) {
         clampPosition(0, 0, maxX, maxY);
     }
 
-    public void clampPosition(int minX, int minY, int maxX, int maxY){
-        posX = Math.max(minX+width/2, Math.min(posX, maxX-width/2));
-        posY = Math.max(minY+height/2, Math.min(posY, maxY-height/2));
+    public void clampPosition(int minX, int minY, int maxX, int maxY) {
+        posX = Math.max(minX + width / 2, Math.min(posX, maxX - width / 2));
+        posY = Math.max(minY + height / 2, Math.min(posY, maxY - height / 2));
     }
 
-    public double distanceToCenterOf(DrawableTarget other){
-        return Math.sqrt(Math.pow(posX-other.posX,2) + Math.pow(posY-other.posY, 2));
+    public double distanceToCenterOf(DrawableTarget other) {
+        return Math.sqrt(Math.pow(posX - other.posX, 2) + Math.pow(posY - other.posY, 2));
     }
 
     public double getCollRadius() {

@@ -15,63 +15,63 @@ import com.example.ReverseShootingGallery.OptionsAdapter;
 import com.example.ReverseShootingGallery.R;
 
 public class OptionsListFragment extends ListFragment {
-	
-	public interface OptionDetailsFragmentDispatcher {
-	    void displayDetailsFor(int pos);
-	}
-	
-	private OptionDetailsFragmentDispatcher dispatcher;
-	private OptionsAdapter adapter;
-	
-    public void setDetailDispatcher(OptionDetailsFragmentDispatcher dfd){
-        dispatcher = dfd;
+
+    public interface OptionDetailsFragmentDispatcher {
+        void displayDetailsFor(int pos);
     }
+
+    private OptionDetailsFragmentDispatcher dispatcher;
+
     // http://developer.android.com/training/basics/fragments/communicating.html
+    // no longer used?
 
     /**
      * Callback for when this fragment attaches to an activity. Here we capture the parent as a dispatcher.
+     *
      * @param activity parent activity being attached to
      */
     @Override
-    public void onAttach(Activity activity){
+    public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
             dispatcher = (OptionDetailsFragmentDispatcher) activity;
-        } catch (ClassCastException cce){
+        } catch (ClassCastException cce) {
             throw new ClassCastException(activity.toString() + " must implement OptionDetailFragmentDispatcher");
         }
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
     }
 
     /**
      * Callback for when this fragment creates its views/layouts.
-     * @param inflater utility object
-     * @param container where this fragment is going
+     *
+     * @param inflater           utility object
+     * @param container          where this fragment is going
      * @param savedInstanceState unused
-     * @return
+     * @return the created view
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState){
-        adapter = new OptionsAdapter(inflater.getContext(), R.layout.options_row, OptionsActivity.OPTION_NAMES);
+                             Bundle savedInstanceState) {
+        OptionsAdapter adapter = new OptionsAdapter(inflater.getContext(), R.layout.options_row, OptionsActivity.OPTION_NAMES);
         setListAdapter(adapter);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     /**
      * Callback for when an item in the listing was clicked
-     * @param l Containing ListView
-     * @param v Row view for the item
+     *
+     * @param l        Containing ListView
+     * @param v        Row view for the item
      * @param position Index of the item
-     * @param id unused
+     * @param id       unused
      */
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id){
+    public void onListItemClick(ListView l, View v, int position, long id) {
         dispatcher.displayDetailsFor(position);
     }
 }

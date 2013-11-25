@@ -15,7 +15,7 @@ public class GameThread extends Thread {
     Context context;
     GameplayView gameplayView;
 
-    public GameThread(SurfaceHolder sHolder, Context ctxt, GameplayView gameplayView){
+    public GameThread(SurfaceHolder sHolder, Context ctxt, GameplayView gameplayView) {
         surfaceHolder = sHolder;
         context = ctxt;
         this.gameplayView = gameplayView;
@@ -23,11 +23,11 @@ public class GameThread extends Thread {
     }
 
     @Override
-    public void run(){
+    public void run() {
         super.run();
-        while(running){
+        while (running) {
             canvas = surfaceHolder.lockCanvas();
-            if(canvas != null){
+            if (canvas != null) {
                 gameplayView.manualUpdate();
                 gameplayView.manualDraw(canvas);
                 surfaceHolder.unlockCanvasAndPost(canvas);

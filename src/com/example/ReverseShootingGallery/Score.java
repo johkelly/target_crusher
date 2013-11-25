@@ -12,6 +12,7 @@ public class Score {
         this.date = date;
         this.valid = true;
     }
+
     public Score(String name, String score, String date) {
         this.name = name;
         this.score = score;

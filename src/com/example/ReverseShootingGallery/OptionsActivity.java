@@ -10,7 +10,7 @@ import com.example.ReverseShootingGallery.fragments.OptionsListFragment;
 
 public class OptionsActivity extends MenuDisplayingActivity implements OptionsListFragment.OptionDetailsFragmentDispatcher {
 
-    private String logString = this.getClass().getSimpleName() + ".log";
+    // private String logString = this.getClass().getSimpleName() + ".log";
 
     private int displayingDetailsFor = -1;
 

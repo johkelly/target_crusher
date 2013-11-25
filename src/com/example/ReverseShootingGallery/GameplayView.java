@@ -1,7 +1,6 @@
 package com.example.ReverseShootingGallery;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
@@ -11,7 +10,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -20,7 +18,6 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Toast;
 import com.example.ReverseShootingGallery.fragments.GameEndDialogFragment;
-import com.example.ReverseShootingGallery.fragments.HighScoreDialogFragment;
 
 import java.util.Random;
 
@@ -30,9 +27,9 @@ import java.util.Random;
  * http://www.mindfiresolutions.com/Using-Surface-View-for-Android-1659.php
  * http://www.codeproject.com/Articles/228656/Tilt-Ball-Walkthrough
  */
-public class GameplayView extends SurfaceView implements SensorEventListener, SurfaceHolder.Callback, View.OnTouchListener {
+public class GameplayView extends SurfaceView implements SensorEventListener, SurfaceHolder.Callback, View.OnTouchListener, GameEndDialogFragment.NewGameListener {
 
-    private static final String logString = GameplayView.class.getName()+".log";
+    private static final String logString = GameplayView.class.getName() + ".log";
     public static final String prefString = "sensorPrefs";
 
     private DrawableTarget target;
@@ -86,7 +83,9 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
                 // Game state/update
                 if (gameManager.gameOver()) {
                     // New game end fragment dialog
-                    ((Activity)mContext).getFragmentManager().beginTransaction().add(new GameEndDialogFragment(), "end").addToBackStack("end").commit();
+                    GameEndDialogFragment f = new GameEndDialogFragment();
+                    f.listener = GameplayView.this;
+                    ((Activity) mContext).getFragmentManager().beginTransaction().add(f, "end").addToBackStack("end").commit();
                     randTargetPosition();
                     gameplayPause();
                     //show high score menu
@@ -155,13 +154,14 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
         paused = false;
         registerSensor();
         lastShotResume = System.currentTimeMillis();
-        if(gameManager.newGame){
+        if (gameManager.newGame) {
             shotWaitElapsed = 0;
         }
         setNeutrals();
         threadHandler.postDelayed(shotTimer, gameManager.shotDelay() - shotWaitElapsed);
     }
-    private void setNeutrals(){
+
+    private void setNeutrals() {
         SharedPreferences shared = mContext.getSharedPreferences(prefString, Context.MODE_PRIVATE);
         neutralX = shared.getFloat("neutralX", 0);
         neutralY = shared.getFloat("neutralY", 0);
@@ -186,7 +186,7 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        target.setVelocity(event.values[1]-neutralX, event.values[0]-neutralY);
+        target.setVelocity(event.values[1] - neutralX, event.values[0] - neutralY);
         Log.d(logString, event.values[1] + " " + event.values[0]);
     }
 
@@ -220,5 +220,10 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
             }
 
         }
+    }
+
+    @Override
+    public void newGame() {
+        gameplayUnpause();
     }
 }

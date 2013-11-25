@@ -13,13 +13,13 @@ public class DetailFragmentFactory {
 
     private static final String logString = DetailFragmentFactory.class.getName() + ".log";
 
-    public DetailFragmentFactory(){
+    public DetailFragmentFactory() {
 
     }
 
-    public Fragment getDetailFragment(int pos){
+    public Fragment getDetailFragment(int pos) {
         Fragment f;
-        switch(pos){
+        switch (pos) {
             case 0:
                 f = new CalibrationFragment();
                 break;
