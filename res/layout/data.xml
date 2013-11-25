@@ -4,10 +4,27 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/reset_scores_button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Data Placeholder"
-        android:id="@+id/textView"
-        android:layout_gravity="left|center_vertical"/>
+        android:text="@string/reset_scores" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/alias"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/player_name_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName" >
+
+        <requestFocus />
+    </EditText>
+
 </LinearLayout>

@@ -27,7 +27,7 @@ import java.util.Random;
  * http://www.mindfiresolutions.com/Using-Surface-View-for-Android-1659.php
  * http://www.codeproject.com/Articles/228656/Tilt-Ball-Walkthrough
  */
-public class GameplayView extends SurfaceView implements SensorEventListener, SurfaceHolder.Callback, View.OnTouchListener, GameEndDialogFragment.NewGameListener {
+public class GameplayView extends SurfaceView implements SensorEventListener, SurfaceHolder.Callback, View.OnTouchListener, GameEndDialogFragment.NewGameListener, GameManager.GameManagerListener {
 
     private static final String logString = GameplayView.class.getName() + ".log";
     public static final String prefString = "sensorPrefs";
@@ -52,16 +52,21 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
 
     public GameplayView(Context context) {
         super(context);
-        target = new DrawableTarget(300, 300, R.drawable.target_blue, getResources(), 1.0, 110);
+        
+        this.gameManager = GameManager.getInstance();
+        gameManager.listener = this;
+        
+        //will instantiate target as a new DrawableTarget.
+        updateColor();
+       
         // initialize position later
         reticle = new DrawableTarget(0, 0, R.drawable.reticle, getResources(), 1.0, 40);
         this.mContext = context;
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
         setOnTouchListener(this);
-
-        this.gameManager = GameManager.getInstance();
-
+        
+        //sensory stuffs
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         threadHandler = new Handler();
@@ -226,4 +231,19 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
     public void newGame() {
         gameplayUnpause();
     }
+
+	@Override
+	public void updateColor() {
+		switch(gameManager.getTargetColor()) {
+        case GameManager.PINK:
+        	target = new DrawableTarget(300, 300, R.drawable.target_pink, getResources(), 1.0, 110);
+        	break;
+        case GameManager.BLUE:
+        	target = new DrawableTarget(300, 300, R.drawable.target_blue, getResources(), 1.0, 110);
+        	break;
+        case GameManager.RAINBOW:
+        	target = new DrawableTarget(300, 300, R.drawable.target_rainbow, getResources(), 1.0, 110);
+        	break;
+        }
+	}
 }

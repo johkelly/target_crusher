@@ -27,4 +27,12 @@
     <string name="help_shoot_more">You can \"aim\" the target, but not the shot!</string>
     <string name="help_hit"> . . . and shoot the target to score!</string>
     <string name="help_hit_more">Every so often, a shot is fired, scoring points if it hits the target!</string>
+    <string name="easy_difficulty">Easy</string>
+    <string name="medium_difficulty">Medium</string>
+    <string name="hard_difficulty">Hard</string>
+    <string name="reset_scores">Reset High Scores</string>
+    <string name="alias">Alias:</string>
+    <string name="pink">Pink Target</string>
+    <string name="blue">Blue Target</string>
+    <string name="rainbow">Rainbow Target</string>
 </resources>

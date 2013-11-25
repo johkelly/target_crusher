@@ -19,7 +19,7 @@ public class AboutActivity extends MenuDisplayingActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         super.onCreateOptionsMenu(menu);
-        menu.removeItem(R.id.action_about);
+        menu.removeItem(R.id.blue_color_button);
         return true;
     }
 }

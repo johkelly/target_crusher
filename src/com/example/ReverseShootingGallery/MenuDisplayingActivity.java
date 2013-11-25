@@ -22,7 +22,7 @@ public class MenuDisplayingActivity extends Activity implements HighScoreDialogF
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
         switch (item.getItemId()) {
-            case R.id.action_about:
+            case R.id.blue_color_button:
                 intent = new Intent(this, AboutActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 break;
