@@ -12,6 +12,7 @@ import edu.mines.zfjk.ReverseShootingGallery.GameManager;
 import edu.mines.zfjk.ReverseShootingGallery.R;
 import edu.mines.zfjk.ReverseShootingGallery.Score;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HighScoreDialogFragment extends DialogFragment {
@@ -19,6 +20,8 @@ public class HighScoreDialogFragment extends DialogFragment {
     private HSDListener listener;
     private GameManager manager;
     private View view;
+    
+    private ArrayList<TextView> nameViews, scoreViews, dateViews;
 
     public interface HSDListener {
         public void onVisible();
@@ -46,6 +49,24 @@ public class HighScoreDialogFragment extends DialogFragment {
         builder.setView(view);
         builder.setMessage(R.string.hs_title);
         Dialog d = builder.create();
+        
+        nameViews = new ArrayList<TextView>();scoreViews = new ArrayList<TextView>();dateViews = new ArrayList<TextView>();
+        nameViews.add((TextView)view.findViewById(R.id.row1_name));
+        nameViews.add((TextView)view.findViewById(R.id.row2_name));
+        nameViews.add((TextView)view.findViewById(R.id.row3_name));
+        nameViews.add((TextView)view.findViewById(R.id.row4_name));
+        nameViews.add((TextView)view.findViewById(R.id.row5_name));
+        scoreViews.add((TextView) view.findViewById(R.id.row1_score));
+        scoreViews.add((TextView) view.findViewById(R.id.row2_score));
+        scoreViews.add((TextView) view.findViewById(R.id.row3_score));
+        scoreViews.add((TextView) view.findViewById(R.id.row4_score));
+        scoreViews.add((TextView) view.findViewById(R.id.row5_score));
+        dateViews.add((TextView) view.findViewById(R.id.row1_date));
+        dateViews.add((TextView) view.findViewById(R.id.row2_date));
+        dateViews.add((TextView) view.findViewById(R.id.row3_date));
+        dateViews.add((TextView) view.findViewById(R.id.row4_date));
+        dateViews.add((TextView) view.findViewById(R.id.row5_date));
+        
         populateScores();
         // Create the AlertDialog object and return it
         return d;
@@ -54,25 +75,18 @@ public class HighScoreDialogFragment extends DialogFragment {
     private void populateScores() {
         List<Score> scores = manager.getTop5Scores();
 
-        ((TextView) view.findViewById(R.id.row1_name)).setText(scores.get(0).name);
-        ((TextView) view.findViewById(R.id.row1_score)).setText(scores.get(0).score);
-        ((TextView) view.findViewById(R.id.row1_date)).setText(scores.get(0).date);
-
-        ((TextView) view.findViewById(R.id.row2_name)).setText(scores.get(1).name);
-        ((TextView) view.findViewById(R.id.row2_score)).setText(scores.get(1).score);
-        ((TextView) view.findViewById(R.id.row2_date)).setText(scores.get(1).date);
-
-        ((TextView) view.findViewById(R.id.row3_name)).setText(scores.get(2).name);
-        ((TextView) view.findViewById(R.id.row3_score)).setText(scores.get(2).score);
-        ((TextView) view.findViewById(R.id.row3_date)).setText(scores.get(2).date);
-
-        ((TextView) view.findViewById(R.id.row4_name)).setText(scores.get(3).name);
-        ((TextView) view.findViewById(R.id.row4_score)).setText(scores.get(3).score);
-        ((TextView) view.findViewById(R.id.row4_date)).setText(scores.get(3).date);
-
-        ((TextView) view.findViewById(R.id.row5_name)).setText(scores.get(4).name);
-        ((TextView) view.findViewById(R.id.row5_score)).setText(scores.get(4).score);
-        ((TextView) view.findViewById(R.id.row5_date)).setText(scores.get(4).date);
+        for (int i = 0; i < Math.min(scores.size(), 5); i++) {
+        	Score s = scores.get(i);
+        	if (s.valid) {
+        		nameViews.get(i).setText(s.name);
+        		scoreViews.get(i).setTag(s.score);
+        		dateViews.get(i).setText(s.date);
+        	} else {
+        		nameViews.get(i).setText("");
+        		scoreViews.get(i).setTag("");
+        		scoreViews.get(i).setText("");
+        	}
+        }
     }
 
     @Override
