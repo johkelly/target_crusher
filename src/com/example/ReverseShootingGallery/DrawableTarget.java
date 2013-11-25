@@ -21,6 +21,8 @@ public class DrawableTarget {
     private double posX;
     private double posY;
     private final Drawable drawable;
+    private final Drawable explosion;
+    private boolean exploding = false;
     private double collRadius;
 
     public double velScale = 3.0;
@@ -28,6 +30,7 @@ public class DrawableTarget {
 
     public DrawableTarget(int x, int y, int resId, Resources resources, double drawScale, double collRadius) {
         drawable = resources.getDrawable(resId);
+        explosion = resources.getDrawable(R.drawable.splosion);
         width = (int) (drawable.getIntrinsicHeight() * drawScale);
         height = (int) (drawable.getIntrinsicHeight() * drawScale);
         posX = x;
@@ -37,13 +40,22 @@ public class DrawableTarget {
         this.collRadius = collRadius;
     }
 
+    public void setExploding(boolean e) {
+        exploding = e;
+    }
+
     public void draw(Canvas c) {
         int l = (int) (posX - width / 2);
         int t = (int) (posY - height / 2);
         int r = (int) (posX + width / 2);
         int b = (int) (posY + height / 2);
-        drawable.setBounds(l, t, r, b);
-        drawable.draw(c);
+        if (exploding) {
+            explosion.setBounds(l, t, r, b);
+            explosion.draw(c);
+        } else {
+            drawable.setBounds(l, t, r, b);
+            drawable.draw(c);
+        }
     }
 
     public void setVelocity(double vx, double vy) {
@@ -59,8 +71,10 @@ public class DrawableTarget {
 
     public void update() {
         Log.d(logstr, "Update; " + xVelocity + " " + yVelocity);
-        posX += xVelocity;
-        posY += yVelocity;
+        if (!exploding) {
+            posX += xVelocity;
+            posY += yVelocity;
+        }
     }
 
     public void clamp(int maxX, int maxY) {

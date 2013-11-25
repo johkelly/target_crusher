@@ -76,14 +76,19 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
                 // Collision
                 if (targetUnderReticle()) {
                     gameManager.targetHit();
-                    randTargetPosition();
+                    target.setExploding(true);
+                    threadHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            target.setExploding(false);
+                            randTargetPosition();
+                        }
+                    }, 500);
                     //flash!
                     //bang!
-                    Toast.makeText(mContext, "Target Hit!", Toast.LENGTH_SHORT).show();
                 } else {
                     gameManager.targetMiss();
                     //sad noise
-                    Toast.makeText(mContext, "Target Miss!", Toast.LENGTH_SHORT).show();
                 }
                 // Game state/update
                 if (gameManager.gameOver()) {
