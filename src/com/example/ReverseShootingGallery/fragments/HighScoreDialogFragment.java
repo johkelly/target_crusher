@@ -26,9 +26,12 @@ public class HighScoreDialogFragment extends DialogFragment {
         public void onDismiss();
     }
 
+    public HighScoreDialogFragment(){
+        manager = GameManager.getInstance();
+    }
+
     public void setListener(HSDListener listener) {
         this.listener = listener;
-        manager = GameManager.getInstance();
     }
 
     @Override
