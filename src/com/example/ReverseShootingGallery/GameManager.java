@@ -60,7 +60,11 @@ public class GameManager {
                 return -1 * (Integer.parseInt(score.score) - Integer.parseInt(score2.score));
             }
         });
-        while (scores.size() > 5) {
+        cullScores();
+    }
+    
+    private void cullScores() {
+    	while (scores.size() > 5) {
             scores.remove(scores.size() - 1);
         }
         while (scores.size() < 5) {
@@ -78,9 +82,12 @@ public class GameManager {
                 Score score = new Score(serializedScore);
                 if (score.valid) {
                     this.scores.add(score);
+                } else {
+                	this.scores.add(new Score("","",""));
                 }
             }
         }
+        cullScores();
     }
     
     public void getStashedValues(SharedPreferences prefs) {
@@ -98,6 +105,7 @@ public class GameManager {
     }
 
     public void stashScores(SharedPreferences prefs) {
+    	cullScores();
         String serializedScores = "";
         for (Score score : this.scores) {
             serializedScores = serializedScores.concat(score.serialize() + ":");
