@@ -43,6 +43,7 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
     private long lastShotResume;
     private long shotWaitElapsed;
     private double neutralX, neutralY;
+    private int bgColor = Color.WHITE;
 
     private GameManager gameManager;
 
@@ -72,6 +73,15 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
         shotTimer = new Runnable() {
             @Override
             public void run() {
+
+                // Visual indication of shot
+                bgColor = Color.BLACK;
+                threadHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        bgColor = Color.WHITE;
+                    }
+                }, 100);
                 // Collision
                 if (targetUnderReticle()) {
                     gameManager.targetHit();
@@ -83,11 +93,8 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
                             randTargetPosition();
                         }
                     }, 500);
-                    //flash!
-                    //bang!
                 } else {
                     gameManager.targetMiss();
-                    //sad noise
                 }
                 // Game state/update
                 if (gameManager.gameOver()) {
@@ -97,8 +104,6 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
                     ((Activity) mContext).getFragmentManager().beginTransaction().add(f, "end").addToBackStack("end").commit();
                     randTargetPosition();
                     gameplayPause();
-                    //show high score menu
-                    //show "play again" button
                 } else {
                     invalidate();
                     lastShotResume = System.currentTimeMillis();
@@ -127,7 +132,7 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
     }
 
     public void manualDraw(Canvas c) {
-        c.drawColor(Color.WHITE);
+        c.drawColor(bgColor);
         target.clamp(getWidth(), getHeight());
         target.draw(c);
         reticle.setPosition(this.getWidth() / 2, this.getHeight() / 2);

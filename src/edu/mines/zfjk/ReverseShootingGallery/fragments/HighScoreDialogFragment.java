@@ -79,12 +79,12 @@ public class HighScoreDialogFragment extends DialogFragment {
         	Score s = scores.get(i);
         	if (s.valid) {
         		nameViews.get(i).setText(s.name);
-        		scoreViews.get(i).setTag(s.score);
+        		scoreViews.get(i).setText(String.valueOf(s.score));
         		dateViews.get(i).setText(s.date);
         	} else {
         		nameViews.get(i).setText("");
-        		scoreViews.get(i).setTag("");
         		scoreViews.get(i).setText("");
+        		dateViews.get(i).setText("");
         	}
         }
     }
