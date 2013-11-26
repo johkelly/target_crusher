@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 
 public class GameManager {
 
-    public static final int EASY = 9001, MEDIUM = 6666, HARD = 2112, DEBUG = 1;
+    public static final int HARD = 9001, MEDIUM = 6666, EASY = 2112;
     public static final int PINK = 0, BLUE = 1, RAINBOW = 2;
 
     private static final String SCORES_KEY = "edu.mines.zfjk.ReverseShootingGallery.Scores";
