@@ -159,6 +159,7 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
     public void gameplayPause() {
         paused = true;
         unregisterSensor();
+        target.setNoisey(false);
         target.setVelocity(0, 0);
         shotWaitElapsed += (System.currentTimeMillis() - lastShotResume);
         threadHandler.removeCallbacks(shotTimer);
@@ -166,6 +167,7 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
 
     public void gameplayUnpause() {
         paused = false;
+        target.setNoisey(true);
         registerSensor();
         lastShotResume = System.currentTimeMillis();
         if (gameManager.newGame) {

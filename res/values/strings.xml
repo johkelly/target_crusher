@@ -24,7 +24,7 @@
     <string name="help_tilt">Tilt your device . . . </string>
     <string name="help_tilt_more">As you tilt your device, the target will move around on screen!</string>
     <string name="help_shoot"> . . . line up the target . . . </string>
-    <string name="help_shoot_more">You can \"aim\" the target, but not the shot!</string>
+    <string name="help_shoot_more">You can \"aim\" the target, but not the shot! (And the target scoots around on its own!)</string>
     <string name="help_hit"> . . . and shoot the target to score!</string>
     <string name="help_hit_more">Every so often, a shot is fired, scoring points if it hits the target!</string>
     <string name="easy_difficulty">Easy</string>

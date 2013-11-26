@@ -77,8 +77,8 @@ public class DrawableTarget {
         xNoise = Math.max(-1.0 * noiseWidth, Math.min(noiseWidth, xNoise + -1 + r.nextDouble() * 2));
         yNoise = Math.max(-5.0, Math.min(5.0, yNoise + -1 + r.nextDouble() * 2));
         if (noisey) {
-	        xVelocity = velScale * (vx + xNoise);
-	        yVelocity = velScale * (vy + yNoise);
+	        xVelocity = velScale * vx + xNoise;
+	        yVelocity = velScale * vy + yNoise;
         } else {
 	        xVelocity = velScale * (vx);
 	        yVelocity = velScale * (vy);
