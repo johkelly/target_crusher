@@ -73,7 +73,8 @@ public class DrawableTarget {
     public void setVelocity(double vx, double vy) {
         Log.d(logstr, "SetVelocity: " + vx + " " + vy);
         Random r = new Random();
-        xNoise = Math.max(-5.0, Math.min(5.0, xNoise + -1 + r.nextDouble() * 2));
+        double noiseWidth = 2.5;
+        xNoise = Math.max(-1.0 * noiseWidth, Math.min(noiseWidth, xNoise + -1 + r.nextDouble() * 2));
         yNoise = Math.max(-5.0, Math.min(5.0, yNoise + -1 + r.nextDouble() * 2));
         if (noisey) {
 	        xVelocity = velScale * (vx + xNoise);
