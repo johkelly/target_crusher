@@ -1,5 +1,7 @@
 package edu.mines.zfjk.ReverseShootingGallery;
 
+import java.util.Random;
+
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -24,6 +26,9 @@ public class DrawableTarget {
     private final Drawable explosion;
     private boolean exploding = false;
     private double collRadius;
+    private boolean noisey;
+    private double xNoise;
+    private double yNoise;
 
     public double velScale = 3.0;
     public double drawScale = 1.0;
@@ -37,11 +42,18 @@ public class DrawableTarget {
         posY = y;
         xVelocity = 0;
         yVelocity = 0;
+        noisey = false;
+        xNoise = 0;
+        yNoise = 0;
         this.collRadius = collRadius;
     }
 
     public void setExploding(boolean e) {
         exploding = e;
+    }
+    
+    public void setNoisey (boolean n) {
+    	noisey = n;
     }
 
     public void draw(Canvas c) {
@@ -60,8 +72,16 @@ public class DrawableTarget {
 
     public void setVelocity(double vx, double vy) {
         Log.d(logstr, "SetVelocity: " + vx + " " + vy);
-        xVelocity = velScale * vx;
-        yVelocity = velScale * vy;
+        Random r = new Random();
+        xNoise = Math.max(-5.0, Math.min(5.0, xNoise + -1 + r.nextDouble() * 2));
+        yNoise = Math.max(-5.0, Math.min(5.0, yNoise + -1 + r.nextDouble() * 2));
+        if (noisey) {
+	        xVelocity = velScale * (vx + xNoise);
+	        yVelocity = velScale * (vy + yNoise);
+        } else {
+	        xVelocity = velScale * (vx);
+	        yVelocity = velScale * (vy);
+        }
     }
 
     public void setPosition(int posX, int posY) {

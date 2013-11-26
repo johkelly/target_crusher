@@ -254,5 +254,6 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
         	target = new DrawableTarget(300, 300, R.drawable.target_rainbow, getResources(), 1.0, 110);
         	break;
         }
+		target.setNoisey(true);
 	}
 }
