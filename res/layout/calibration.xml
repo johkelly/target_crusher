@@ -2,24 +2,14 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?android:attr/colorBackground">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/calibr_title"
-        android:id="@+id/CalibrTitle"
-        android:layout_gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true" />
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_below="@+id/CalibrTitle"
-        android:layout_above="@+id/calibrate_btn">
+        android:layout_above="@+id/calibrate_btn"
+        android:layout_alignParentTop="true">
 
         <ImageView
             android:layout_width="wrap_content"

@@ -35,4 +35,5 @@
     <string name="pink">Pink Target</string>
     <string name="blue">Blue Target</string>
     <string name="rainbow">Rainbow Target</string>
+    <string name="empty"/>
 </resources>

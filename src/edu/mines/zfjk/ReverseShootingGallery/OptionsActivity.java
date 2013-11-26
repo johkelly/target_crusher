@@ -11,10 +11,6 @@ import edu.mines.zfjk.ReverseShootingGallery.fragments.OptionsListFragment;
 
 public class OptionsActivity extends MenuDisplayingActivity implements OptionsListFragment.OptionDetailsFragmentDispatcher {
 
-    // private String logString = this.getClass().getSimpleName() + ".log";
-
-    private int displayingDetailsFor = -1;
-
     public static String[] OPTION_NAMES = {
             "Calibration",
             "Difficulty",
@@ -31,22 +27,24 @@ public class OptionsActivity extends MenuDisplayingActivity implements OptionsLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //getFragmentManager().popBackStack();
+        getFragmentManager().executePendingTransactions();
         // Load an appropriate layout
         setContentView(R.layout.options_listing);
         // Single fragment layout
         if (findViewById(R.id.solo_options_fragment_container) != null) {
-            Fragment frag;
-            frag = new OptionsListFragment();
-            // Restore a "stack" consisting of the list view.
-            getFragmentManager().beginTransaction().add(R.id.solo_options_fragment_container, frag, "options_list_fragment").commit();
-            getFragmentManager().executePendingTransactions();
-        }
-        /// The details view, if needed
-        if (savedInstanceState != null && savedInstanceState.containsKey("show")) {
-            int optionIndex = savedInstanceState.getInt("show");
-            if(optionIndex != -1){
-                displayDetailsFor(optionIndex);
+            // The list fragment is not yet present
+            if (getFragmentManager().findFragmentByTag("options_list_fragment") == null) {
+                Fragment frag;
+                frag = new OptionsListFragment();
+                // Restore a "stack" consisting of the list view.
+                getFragmentManager().beginTransaction().add(R.id.solo_options_fragment_container, frag, "options_list_fragment").commit();
+                getFragmentManager().executePendingTransactions();
             }
+        }
+        // Pop the details view back stack entry if it exists
+        else {
+            getFragmentManager().popBackStack("details_back", FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
     }
 
@@ -55,15 +53,6 @@ public class OptionsActivity extends MenuDisplayingActivity implements OptionsLi
         super.onPause();
         GameManager m = GameManager.getInstance();
         m.stashValues(getSharedPreferences(GameManager.PREFS_KEY, Context.MODE_PRIVATE));
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle b) {
-        super.onSaveInstanceState(b);
-        if(getFragmentManager().findFragmentByTag("options_list_fragment") != null){
-            displayingDetailsFor = -1;
-        }
-        b.putInt("show", displayingDetailsFor);
     }
 
     @Override
@@ -80,20 +69,17 @@ public class OptionsActivity extends MenuDisplayingActivity implements OptionsLi
      */
     @Override
     public void displayDetailsFor(int pos) {
-        displayingDetailsFor = pos;
         FragmentManager fm = getFragmentManager();
-        // Multi pane layout with multiple fragments in layout
-        if (findViewById(R.id.solo_options_fragment_container) == null) {
-            ((OptionsListFragment) fm.findFragmentById(R.id.options_list_fragment)).getListView().setItemChecked(pos, true);
-            Fragment f = fragFactory.getDetailFragment(pos);
-            fm.beginTransaction().replace(R.id.options_detail_fragment_container, f, "details").commit();
-            fm.executePendingTransactions();
-        }
         // Single pane layout with multiple fragments
+        if (findViewById(R.id.solo_options_fragment_container) != null) {
+            Fragment details = fragFactory.getDetailFragment(pos);
+            fm.beginTransaction().replace(R.id.solo_options_fragment_container, details).addToBackStack("details_back").commit();
+        }
+        // Multi pane layout with multiple fragments in layout
         else {
             Fragment details = fragFactory.getDetailFragment(pos);
-            fm.beginTransaction().replace(R.id.solo_options_fragment_container, details).addToBackStack(null).commit();
-            fm.executePendingTransactions();
+            fm.beginTransaction().replace(R.id.options_detail_fragment_container, details, "details").commit();
         }
+        fm.executePendingTransactions();
     }
 }
