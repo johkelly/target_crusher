@@ -37,15 +37,15 @@ public class OptionsActivity extends MenuDisplayingActivity implements OptionsLi
         if (findViewById(R.id.solo_options_fragment_container) != null) {
             Fragment frag;
             frag = new OptionsListFragment();
-            // Restore a "stack" consisting of the list view...
+            // Restore a "stack" consisting of the list view.
             getFragmentManager().beginTransaction().add(R.id.solo_options_fragment_container, frag, "options_list_fragment").commit();
             getFragmentManager().executePendingTransactions();
-            /// ... and the details view, if needed
-            if (savedInstanceState != null) {
-                int optionIndex = savedInstanceState.getInt("show");
-                if(optionIndex != -1){
-                    displayDetailsFor(optionIndex);
-                }
+        }
+        /// The details view, if needed
+        if (savedInstanceState != null && savedInstanceState.containsKey("show")) {
+            int optionIndex = savedInstanceState.getInt("show");
+            if(optionIndex != -1){
+                displayDetailsFor(optionIndex);
             }
         }
     }
@@ -60,6 +60,9 @@ public class OptionsActivity extends MenuDisplayingActivity implements OptionsLi
     @Override
     public void onSaveInstanceState(Bundle b) {
         super.onSaveInstanceState(b);
+        if(getFragmentManager().findFragmentByTag("options_list_fragment") != null){
+            displayingDetailsFor = -1;
+        }
         b.putInt("show", displayingDetailsFor);
     }
 
@@ -84,8 +87,9 @@ public class OptionsActivity extends MenuDisplayingActivity implements OptionsLi
             ((OptionsListFragment) fm.findFragmentById(R.id.options_list_fragment)).getListView().setItemChecked(pos, true);
             Fragment f = fragFactory.getDetailFragment(pos);
             fm.beginTransaction().replace(R.id.options_detail_fragment_container, f, "details").commit();
+            fm.executePendingTransactions();
         }
-        // Single pane layout with multiple activities
+        // Single pane layout with multiple fragments
         else {
             Fragment details = fragFactory.getDetailFragment(pos);
             fm.beginTransaction().replace(R.id.solo_options_fragment_container, details).addToBackStack(null).commit();
