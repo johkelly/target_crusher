@@ -1,22 +1,23 @@
+/**
+ * Description: Factory for generating detail fragments for the options screen based on a list position
+ * @author John Kelly
+ */
+
 package edu.mines.zfjk.ReverseShootingGallery.fragments;
 
 import android.app.Fragment;
 import android.util.Log;
 
-/**
- * Created with IntelliJ IDEA.
- * User: John Kelly
- * Date: 11/22/13
- * Time: 3:48 PM
- */
 public class DetailFragmentFactory {
 
     private static final String logString = DetailFragmentFactory.class.getName() + ".log";
 
-    public DetailFragmentFactory() {
-
-    }
-
+    /**
+     * Produce a Fragment associated with a given position index
+     *
+     * @param pos Index of the listing in the Options menu
+     * @return Fragment of the proper type for the given {@code pos}
+     */
     public Fragment getDetailFragment(int pos) {
         Fragment f;
         switch (pos) {
@@ -33,7 +34,7 @@ public class DetailFragmentFactory {
                 f = new DataFragment();
                 break;
             default:
-                Log.d(logString, "Requested to create unknown DetailFragment, id: " + pos);
+                Log.w(logString, "Requested to create unknown DetailFragment, id: " + pos);
                 f = new Fragment();
                 break;
         }

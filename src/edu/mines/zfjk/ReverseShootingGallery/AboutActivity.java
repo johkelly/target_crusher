@@ -1,16 +1,15 @@
+/**
+ * Description: Static activity for displaying About information
+ * @author John Kelly
+ */
+
 package edu.mines.zfjk.ReverseShootingGallery;
 
 import android.os.Bundle;
 import android.view.Menu;
 
-/**
- * Created with IntelliJ IDEA.
- * User: jack
- * Date: 11/11/13
- * Time: 5:42 PM
- * To change this template use File | Settings | File Templates.
- */
 public class AboutActivity extends MenuDisplayingActivity {
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about);
@@ -19,7 +18,7 @@ public class AboutActivity extends MenuDisplayingActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         super.onCreateOptionsMenu(menu);
-        menu.removeItem(R.id.blue_color_button);
+        menu.removeItem(R.id.action_about);
         return true;
     }
 }

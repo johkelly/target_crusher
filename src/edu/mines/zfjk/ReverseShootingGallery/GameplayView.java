@@ -1,3 +1,10 @@
+/**
+ * Description: This is where the magic (i.e. gameplay) happens
+ * @author John Kelly, Zach Fleischman
+ * @see <a href="http://www.mindfiresolutions.com/Using-Surface-View-for-Android-1659.php">Using SurfaceView</a>
+ * @see <a href="http://www.codeproject.com/Articles/228656/Tilt-Ball-Walkthrough">App demonstrating Acceleration Sensor</a>
+ */
+
 package edu.mines.zfjk.ReverseShootingGallery;
 
 import android.app.Activity;
@@ -20,12 +27,6 @@ import edu.mines.zfjk.ReverseShootingGallery.fragments.GameEndDialogFragment;
 
 import java.util.Random;
 
-/**
- * Created with IntelliJ IDEA.
- * Based very loosely on:
- * http://www.mindfiresolutions.com/Using-Surface-View-for-Android-1659.php
- * http://www.codeproject.com/Articles/228656/Tilt-Ball-Walkthrough
- */
 public class GameplayView extends SurfaceView implements SensorEventListener, SurfaceHolder.Callback, View.OnTouchListener, GameEndDialogFragment.NewGameListener, GameManager.GameManagerListener {
 
     private static final String logString = GameplayView.class.getName() + ".log";
@@ -52,20 +53,20 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
 
     public GameplayView(Context context) {
         super(context);
-        
+
         this.gameManager = GameManager.getInstance();
         gameManager.listener = this;
-        
+
         //will instantiate target as a new DrawableTarget.
         updateColor();
-       
+
         // initialize position later
         reticle = new DrawableTarget(0, 0, R.drawable.reticle, getResources(), 1.0, 40);
         this.mContext = context;
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
         setOnTouchListener(this);
-        
+
         //sensory stuffs
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -131,43 +132,59 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
         target.update();
     }
 
+    /**
+     * Draws onto the provided canvas the game objects and gameplay information text
+     *
+     * @param c Canvas to draw onto
+     */
     public void manualDraw(Canvas c) {
+        // Fill canvas with the background color each frame
         c.drawColor(bgColor);
+        // Clamp and draw the target
         target.clamp(getWidth(), getHeight());
         target.draw(c);
+        // Forcibly the center the reticle and draw it
         reticle.setPosition(this.getWidth() / 2, this.getHeight() / 2);
         reticle.draw(c);
-
+        // Black text for the gameplay information
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setTextSize(35);
         c.drawText("Score: " + gameManager.getScore(), 5, 35, paint);
         c.drawText("Shots: " + gameManager.getShotsLeft(), 5, 70, paint);
-
+        // If paused, gray out (dim) the canvas
         if (paused) {
             c.drawColor(Color.argb(128, 0, 0, 0));
         }
     }
 
+    /**
+     * Set the target to be at a random valid position.
+     */
     private void randTargetPosition() {
         Random r = new Random();
         target.setPosition(r.nextInt() % this.getWidth(), r.nextInt() % this.getHeight());
-        //target.setVelocity(0, 0); probably not, but maybe?
         target.clamp(getWidth(), getHeight());
     }
 
+    /**
+     * Unregistor sensors to reduce power draw, quiet the target, stash the shot delay, and cancel the shot callback
+     */
     public void gameplayPause() {
         paused = true;
         unregisterSensor();
-        target.setNoisey(false);
+        target.setNoisy(false);
         target.setVelocity(0, 0);
         shotWaitElapsed += (System.currentTimeMillis() - lastShotResume);
         threadHandler.removeCallbacks(shotTimer);
     }
 
+    /**
+     * Register sensors for gameplay, get the target moving again, restore shot delay, and resume gameplay state
+     */
     public void gameplayUnpause() {
         paused = false;
-        target.setNoisey(true);
+        target.setNoisy(true);
         registerSensor();
         lastShotResume = System.currentTimeMillis();
         if (gameManager.newGame) {
@@ -183,6 +200,11 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
         neutralY = shared.getFloat("neutralY", 0);
     }
 
+    /**
+     * Whether or not the any part of the target is under the center of the reticle (i.e. visually hittable)
+     *
+     * @return {@code true} if the target is in such a position, {@code false} otherwise
+     */
     private boolean targetUnderReticle() {
         double dist = target.distanceToCenterOf(reticle);
         return dist < target.getCollRadius();
@@ -190,6 +212,7 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        // React to touching this view, and let the event propogate
         if (v == this) {
             if (!paused) {
                 gameplayPause();
@@ -203,24 +226,24 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
     @Override
     public void onSensorChanged(SensorEvent event) {
         target.setVelocity(event.values[1] - neutralX, event.values[0] - neutralY);
-        Log.d(logString, event.values[1] + " " + event.values[0]);
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        //Do nothing
+        // Do nothing: Intentionally blank
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        gameThread = new GameThread(holder, mContext, this);
+        // Spin up a GameThread
+        gameThread = new GameThread(holder, this);
         gameThread.running = true;
         gameThread.start();
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        //Do Nothing
+        // Do Nothing: Intentionally blank
     }
 
     @Override
@@ -232,7 +255,7 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
                 gameThread.join();
                 retry = false;
             } catch (InterruptedException e) {
-                Log.v(logString, "Failed to join game thread.");
+                Log.w(logString, "Failed to join game thread.");
             }
 
         }
@@ -243,27 +266,31 @@ public class GameplayView extends SurfaceView implements SensorEventListener, Su
         gameplayUnpause();
     }
 
-	@Override
-	public void updateColor() {
-		switch(gameManager.getTargetColor()) {
-        case GameManager.PINK:
-        	target = new DrawableTarget(300, 300, R.drawable.target_pink, getResources(), 1.0, 1.0*110);
-        	break;
-        case GameManager.BLUE:
-        	target = new DrawableTarget(300, 300, R.drawable.target_blue, getResources(), 1.0, 1.0*110);
-        	break;
-        case GameManager.RAINBOW:
-        	target = new DrawableTarget(300, 300, R.drawable.target_rainbow, getResources(), 1.0, 1.0*110);
-        	break;
+    @Override
+    public void updateColor() {
+        switch (gameManager.getTargetColor()) {
+            case GameManager.PINK:
+                target = new DrawableTarget(300, 300, R.drawable.target_pink, getResources(), 1.0, 1.0 * 110);
+                break;
+            case GameManager.BLUE:
+                target = new DrawableTarget(300, 300, R.drawable.target_blue, getResources(), 1.0, 1.0 * 110);
+                break;
+            case GameManager.RAINBOW:
+                target = new DrawableTarget(300, 300, R.drawable.target_rainbow, getResources(), 1.0, 1.0 * 110);
+                break;
         }
-		target.setNoisey(true);
-	}
+        target.setNoisy(true);
+    }
 
-    public void updateScale(){
-        double sy = (getResources().getDrawable(R.drawable.target_blue).getIntrinsicHeight())/(getHeight()/3.0);
-        double sx = (getResources().getDrawable(R.drawable.target_blue).getIntrinsicWidth())/(getWidth()/3.0);
+    /**
+     * Apply some magic numbers to scale the drawable objects to fit nicely on screen.
+     * Each drawable object is scaled to fit into 1/3 the dimension of the most constricted screen dimension
+     */
+    public void updateScale() {
+        double sy = (getResources().getDrawable(R.drawable.target_blue).getIntrinsicHeight()) / (getHeight() / 3.0);
+        double sx = (getResources().getDrawable(R.drawable.target_blue).getIntrinsicWidth()) / (getWidth() / 3.0);
         double s = Math.max(sy, sx);
-        s = 1.0/s;
+        s = 1.0 / s;
         target.setScale(s);
         reticle.setScale(s);
     }

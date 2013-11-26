@@ -1,3 +1,9 @@
+/**
+ * Description: Fragment with layout and logic for viewing a high score at the end of a game, and saving the score
+ * under a given name then starting a new game.
+ * @author John Kelly
+ */
+
 package edu.mines.zfjk.ReverseShootingGallery.fragments;
 
 import android.app.AlertDialog;
@@ -14,9 +20,10 @@ import edu.mines.zfjk.ReverseShootingGallery.R;
 
 public class GameEndDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
 
-    public interface NewGameListener{
+    public interface NewGameListener {
         public void newGame();
     }
+
     public NewGameListener listener;
 
     private View view;

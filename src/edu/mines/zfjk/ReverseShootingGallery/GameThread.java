@@ -1,23 +1,20 @@
+/**
+ * Description: Thread object that loops repeatedly, creating an Update()/Draw() loop
+ * @author John Kelly, Zach Fleischman
+ */
+
 package edu.mines.zfjk.ReverseShootingGallery;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
-/**
- * Created with IntelliJ IDEA.
- * Based on http://www.mindfiresolutions.com/Using-Surface-View-for-Android-1659.php
- */
 public class GameThread extends Thread {
     public boolean running;
-    Canvas canvas;
-    SurfaceHolder surfaceHolder;
-    Context context;
-    GameplayView gameplayView;
+    private SurfaceHolder surfaceHolder;
+    private GameplayView gameplayView;
 
-    public GameThread(SurfaceHolder sHolder, Context ctxt, GameplayView gameplayView) {
+    public GameThread(SurfaceHolder sHolder, GameplayView gameplayView) {
         surfaceHolder = sHolder;
-        context = ctxt;
         this.gameplayView = gameplayView;
         running = false;
     }
@@ -26,7 +23,7 @@ public class GameThread extends Thread {
     public void run() {
         super.run();
         while (running) {
-            canvas = surfaceHolder.lockCanvas();
+            Canvas canvas = surfaceHolder.lockCanvas();
             if (canvas != null) {
                 gameplayView.manualUpdate();
                 gameplayView.manualDraw(canvas);

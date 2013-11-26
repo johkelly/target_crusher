@@ -1,3 +1,8 @@
+/**
+ * Description: Object to store and serialize information about a score set by a player during gameplay
+ * @author Zach Fleischman
+ */
+
 package edu.mines.zfjk.ReverseShootingGallery;
 
 public class Score {
@@ -25,6 +30,11 @@ public class Score {
         }
     }
 
+    /**
+     * Not technically serialization, but normalizes the data into a form for storage
+     *
+     * @return A string of the form NNNNNNNNN;S;MM-DD-YY
+     */
     public String serialize() {
         return name + ";" + score + ";" + date;
     }

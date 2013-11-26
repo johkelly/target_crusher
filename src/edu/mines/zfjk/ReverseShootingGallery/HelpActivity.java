@@ -1,10 +1,15 @@
-package edu.mines.zfjk.ReverseShootingGallery;
+/**
+ * Description: Static activity with Help information
+ * @author John Kelly
+ */
 
+package edu.mines.zfjk.ReverseShootingGallery;
 
 import android.os.Bundle;
 import android.view.Menu;
 
 public class HelpActivity extends MenuDisplayingActivity {
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.help);

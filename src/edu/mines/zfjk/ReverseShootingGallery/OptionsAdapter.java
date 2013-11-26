@@ -1,3 +1,8 @@
+/**
+ * Description: Adapter class to convert an array of sub-option strings into a ListView layout
+ * @author Zach Fleischman
+ */
+
 package edu.mines.zfjk.ReverseShootingGallery;
 
 import android.app.Activity;
@@ -16,7 +21,7 @@ public class OptionsAdapter extends ArrayAdapter<String> {
     private int layoutResId;
     private List<String> options;
 
-    // http://www.ezzylearning.com/tutorial.aspx?tid=1763429
+    //
     public OptionsAdapter(Context context, int layoutResId, String[] data) {
         super(context, layoutResId, data);
         this.context = context;
@@ -36,6 +41,7 @@ public class OptionsAdapter extends ArrayAdapter<String> {
      * @param convertView Old view to reuse, if possible
      * @param parent      View the returned view will go into
      * @return An inflated and populated view to use as a row in a ListView for the given object at pos
+     * @see <a href="http://www.ezzylearning.com/tutorial.aspx?tid=1763429">Static ArrayAdapter Example</a>
      */
     @Override
     public View getView(int pos, View convertView, ViewGroup parent) {

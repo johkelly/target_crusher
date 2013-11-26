@@ -1,3 +1,8 @@
+/**
+ * Description: Fragment with layout and logic to adjust neutral sensor position.
+ * @author John Kelly
+ */
+
 package edu.mines.zfjk.ReverseShootingGallery.fragments;
 
 import android.app.Activity;
@@ -25,20 +30,14 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-/**
- * Created with IntelliJ IDEA.
- * User: John Kelly
- * Date: 11/18/13
- * Time: 3:19 PM
- */
 public class CalibrationFragment extends Fragment implements SensorEventListener, View.OnClickListener {
+    private final Object neutralLock = new Object();
 
     private SensorManager sensorManager;
     private Sensor accelSensor;
-
     private AccelLowPassFilter filter;
+
     private DecimalFormat formatter;
-    private static final Object neutralLock = new Object();
     private float neutralX, neutralY;
 
     private Handler threadHandler;
@@ -46,6 +45,8 @@ public class CalibrationFragment extends Fragment implements SensorEventListener
     public CalibrationFragment() {
         filter = new AccelLowPassFilter();
         formatter = (DecimalFormat) NumberFormat.getInstance(Locale.getDefault());
+        // Display numbers in the format:
+        // 0.00
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
         formatter.setMaximumIntegerDigits(1);
@@ -53,18 +54,17 @@ public class CalibrationFragment extends Fragment implements SensorEventListener
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.calibration, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        Button b = (Button) view.findViewById(R.id.calibrate_btn);
-        b.setOnClickListener(this);
-        ImageView i = (ImageView) view.findViewById(R.id.device_image);
+        view.findViewById(R.id.calibrate_btn).setOnClickListener(this);
+        ImageView imgv = (ImageView) view.findViewById(R.id.device_image);
         Integer drawId = null;
+        // Get the orientation of the device, and the device's screen resolution
+        // Based on this, display a stock device image of an appropriate type and orientation
         int orientation = getActivity().getResources().getConfiguration().orientation;
         switch (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) {
             case Configuration.SCREENLAYOUT_SIZE_SMALL:
@@ -98,8 +98,9 @@ public class CalibrationFragment extends Fragment implements SensorEventListener
             default:
                 break;
         }
+        // Protect against unknown devices and/or orientations
         if (drawId != null) {
-            i.setImageDrawable(getResources().getDrawable(drawId));
+            imgv.setImageDrawable(getResources().getDrawable(drawId));
         }
     }
 
@@ -108,15 +109,22 @@ public class CalibrationFragment extends Fragment implements SensorEventListener
         super.onAttach(activity);
         sensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
         accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        // Retrieve neutral position set by the user, if any
         SharedPreferences prefs = activity.getSharedPreferences(GameplayView.prefString, Context.MODE_PRIVATE);
         neutralX = prefs.getFloat("neutralX", 0);
         neutralY = prefs.getFloat("neutralY", 0);
     }
 
+    /**
+     * Start listening to sensor events
+     */
     public void registerSensor() {
         sensorManager.registerListener(this, accelSensor, SensorManager.SENSOR_DELAY_GAME);
     }
 
+    /**
+     * Stop listening to sensor events
+     */
     public void unregisterSensor() {
         sensorManager.unregisterListener(this);
     }
@@ -125,6 +133,8 @@ public class CalibrationFragment extends Fragment implements SensorEventListener
     public void onResume() {
         super.onResume();
         registerSensor();
+        // Don't let the activity rotate, so that moving the neutral position doesn't accidentally trigger
+        // and orientation change
         lockOrientation(getActivity());
     }
 
@@ -134,6 +144,7 @@ public class CalibrationFragment extends Fragment implements SensorEventListener
         unregisterSensor();
         SharedPreferences prefs = getActivity().getSharedPreferences(GameplayView.prefString, Context.MODE_PRIVATE);
         prefs.edit().putFloat("neutralX", neutralX).putFloat("neutralY", neutralY).commit();
+        // Let the activity rotate again
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
     }
 
@@ -158,10 +169,16 @@ public class CalibrationFragment extends Fragment implements SensorEventListener
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        //Do Nothing
+        // Do Nothing: Intentional
     }
 
-    // http://stackoverflow.com/a/14565436
+    /**
+     * Prevents the specified activity from changing orientation, should be paired with a call to
+     * setRequestedOrientation(SCREEN_ORIENTATION_UNSPECIFIED)
+     *
+     * @param activity Activity to lock to current orientation.
+     * @see <a href="http://stackoverflow.com/a/14565436">Stack Overflow thread describing technique</a>
+     */
     public static void lockOrientation(Activity activity) {
         Display display = ((WindowManager) activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         int rotation = display.getRotation();
@@ -183,13 +200,19 @@ public class CalibrationFragment extends Fragment implements SensorEventListener
         activity.setRequestedOrientation(orientation);
     }
 
+    /**
+     * Dispatches anonymous runnables to track changes to neutral position and eventually cancel calibration state.
+     */
     private void beginCalibration() {
         final ProgressBar pb = (ProgressBar) getView().findViewById(R.id.calibrate_prog);
         final Button b = (Button) getView().findViewById(R.id.calibrate_btn);
+        // Button goes away
         b.setVisibility(View.GONE);
+        // Progress bar is determinate and visible and reset
         pb.setIndeterminate(false);
         pb.setVisibility(View.VISIBLE);
         pb.setProgress(0);
+        // Update neutral position every 1/10 second
         final Runnable neutralTicker = new Runnable() {
             @Override
             public void run() {
@@ -201,6 +224,7 @@ public class CalibrationFragment extends Fragment implements SensorEventListener
                 threadHandler.postDelayed(this, 100);
             }
         };
+        // Reset widget visibility and callbacks at end of calibration
         Runnable endCalibration = new Runnable() {
             @Override
             public void run() {
@@ -209,6 +233,8 @@ public class CalibrationFragment extends Fragment implements SensorEventListener
                 threadHandler.removeCallbacks(neutralTicker);
             }
         };
+        // First neutral update scheduled for 100ms (1/10 sec) later
+        // Calibration window lasts 4 seconds
         threadHandler.postDelayed(neutralTicker, 100);
         threadHandler.postDelayed(endCalibration, 4000);
     }

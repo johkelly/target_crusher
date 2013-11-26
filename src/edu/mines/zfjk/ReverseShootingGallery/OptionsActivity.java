@@ -1,5 +1,9 @@
-package edu.mines.zfjk.ReverseShootingGallery;
+/**
+ * Description: Activity for browsing and selecting sub-option items
+ * @author John Kelly, Zach Fleischman
+ */
 
+package edu.mines.zfjk.ReverseShootingGallery;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -40,7 +44,7 @@ public class OptionsActivity extends MenuDisplayingActivity implements OptionsLi
                 // Restore a "stack" consisting of the list view.
                 getFragmentManager().beginTransaction().add(R.id.solo_options_fragment_container, frag, "options_list_fragment").commit();
                 getFragmentManager().executePendingTransactions();
-            }
+            } // else: do nothing, the list fragment is already present in the layout //
         }
         // Pop the details view back stack entry if it exists
         else {
@@ -62,11 +66,6 @@ public class OptionsActivity extends MenuDisplayingActivity implements OptionsLi
         return true;
     }
 
-    /**
-     * Dispatch a DetailsFragment according to the current layout
-     *
-     * @param pos index of the Equipment object to display details for
-     */
     @Override
     public void displayDetailsFor(int pos) {
         FragmentManager fm = getFragmentManager();
