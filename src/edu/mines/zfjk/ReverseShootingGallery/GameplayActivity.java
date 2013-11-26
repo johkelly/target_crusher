@@ -32,13 +32,8 @@ public class GameplayActivity extends MenuDisplayingActivity {
         super.onCreate(savedInstanceState);
         gameView = new GameplayView(this);
         setContentView(gameView);
-        gameView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                gameView.updateScale();
-                gameView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
+        gameView.updateColor();
+        scheduleScaleUpdate();
         gameManager = GameManager.getInstance();
         SharedPreferences prefs = getSharedPreferences(GameManager.PREFS_KEY, Context.MODE_PRIVATE);
         gameManager.getStashedValues(prefs);
@@ -49,6 +44,21 @@ public class GameplayActivity extends MenuDisplayingActivity {
         super.onResume();
         gameView.gameplayUnpause();
         gameView.updateColor();
+        scheduleScaleUpdate();
+    }
+
+    private void scheduleScaleUpdate(){
+        if(gameView.getHeight() == 0){
+            gameView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    gameView.updateScale();
+                    gameView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+            });
+        } else {
+            gameView.updateScale();
+        }
     }
 
     @Override
